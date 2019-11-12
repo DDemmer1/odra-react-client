@@ -1,25 +1,36 @@
 import React, {Component} from 'react';
 import './App.css';
-import Header from "./components/layout/Header";
+import './fontawesome/css/all.css';
+
 import Sidebar from "./components/layout/Sidebar";
-import SpiegelColumn from "./components/SpiegelColumn";
-import PikioColumn from "./components/PikioColumn";
+import NewsColumn from "./components/NewsColumn";
 
 class App extends Component {
+
+
+    state = {
+        newsColumns: [
+            {
+                id: "1",
+                type: "source",
+                source: "spiegel.de"
+            }, {
+                id: "2",
+                type: "source",
+                source: "pikio.pl"
+            }
+        ]
+    }
 
     render() {
         return (
             <div className="App">
-                <div className="container-fluid">
-                    <Header/>
-                    <Sidebar/>
-                    <div className="row" style={wrapper}>
-                        <SpiegelColumn/>
-                        <PikioColumn/>
-                        <PikioColumn/>
-                        <SpiegelColumn/>
-                        <PikioColumn/>
-                        <SpiegelColumn/>
+                <div>
+                    <Sidebar newsColumns={this.state.newsColumns} />
+                    <div style={columnWrapper}>
+                        {this.state.newsColumns.map((column) => (
+                            <NewsColumn column={column}/>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -29,8 +40,9 @@ class App extends Component {
 
 }
 
-const wrapper = {
-    marginTop: "4rem",
-    marginLeft: "14rem"
+const columnWrapper = {
+    marginLeft: "12.5rem",
+    whiteSpace: "nowrap"
 }
+
 export default App;
