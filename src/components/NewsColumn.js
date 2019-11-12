@@ -12,12 +12,12 @@ class NewsColumn extends Component {
 
 
     componentDidMount() {
-        axios.get("http://localhost:8080/articles/source/spiegel?limit=20")
+        axios.get("http://localhost:8080/articles/source/"+this.props.column.source+"?limit=20")
             .then((result) => that.setState({articles: result.data}));
         //start 5sec refresh
         var that = this;
         window.setInterval(function() {
-            axios.get("http://localhost:8080/articles/source/spiegel?limit=20")
+            axios.get("http://localhost:8080/articles/source/"+that.props.column.source+"?limit=20")
                 .then((result) => that.setState({articles: result.data}))},
             5000
         );
@@ -41,7 +41,7 @@ class NewsColumn extends Component {
 
 const listStyle = {
     overflow: "scroll",
-    height: "94.3vh",
+    height: "94.1vh",
     whiteSpace:"normal",
     width: "20rem",
     padding: "1rem 1rem 1rem 1rem",

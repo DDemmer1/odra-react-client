@@ -13,11 +13,11 @@ class App extends Component {
             {
                 id: "1",
                 type: "source",
-                source: "spiegel.de"
+                source: "spiegel"
             }, {
                 id: "2",
                 type: "source",
-                source: "pikio.pl"
+                source: "pikio"
             }
         ]
     }

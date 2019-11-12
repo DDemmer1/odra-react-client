@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Radium from "radium";
 
 class Article extends Component {
     render() {
@@ -9,9 +10,9 @@ class Article extends Component {
                 <p>{topic}</p>
                 <h4 style={headlineStyle}><a href={link}>{headline}</a></h4>
 
-                <p>{new Date(crawlDate).toLocaleString()}</p>
+                <span>{new Date(crawlDate).toLocaleString()}</span>
                 <p style={itemList}>
-                    <i style={articleItems} class="far fa-comment"></i> 5
+                    <i style={[articleItems,{paddingLeft:"0"}]} class="far fa-comment"></i> 5
                     <i style={articleItems} class="far fa-flag"></i> 4
                     <i style={articleItems} class="far fa-star"></i> 1
                     <i style={articleItems} class="fas fa-ellipsis-h"></i>
@@ -22,14 +23,18 @@ class Article extends Component {
     }
 }
 
+Article = Radium(Article)
 
 
 const itemList = {
-    color:"gray"
+    color:"#b4b4b4"
 }
 
 const articleItems = {
-    paddingLeft: "1rem"
+    paddingLeft: "0.8rem",
+    cursor:"pointer",
+    fontSize: "0.9rem"
+
 }
 
 const headlineStyle = {
