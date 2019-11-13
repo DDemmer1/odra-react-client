@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import ArticleList from "./ArticleList";
+import ArticleList from "./SourceList";
 import axios from "axios";
-import ColumnHeader from "./header/ColumnHeader";
+import ColumnHeader from "./SourceHeader";
 
-class NewsColumn extends Component {
+class ArticleColumn extends Component {
 
 
     state = {
@@ -58,4 +58,4 @@ const columnStyle = {
 }
 
 
-export default NewsColumn;
+export default ArticleColumn;

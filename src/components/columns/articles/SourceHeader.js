@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Radium from "radium";
-import SliderButton from "../buttons/SliderButton";
+import SliderButton from "./buttons/SliderButton";
 
 
 class ColumnHeader extends Component {

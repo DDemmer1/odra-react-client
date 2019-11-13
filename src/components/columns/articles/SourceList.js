@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Article from "./Article";
+import Article from "./SourceArticle";
 
 class ArticleList extends Component {
     render() {

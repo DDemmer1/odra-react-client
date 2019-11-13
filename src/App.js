@@ -3,7 +3,7 @@ import './App.css';
 import './fontawesome/css/all.css';
 
 import Sidebar from "./components/sidebar/Sidebar";
-import NewsColumn from "./components/columns/articles/ArticleColumn";
+import ArticleColumn from "./components/columns/articles/SourceColumn";
 
 class App extends Component {
 
@@ -12,11 +12,19 @@ class App extends Component {
             {
                 id: "1",
                 type: "source",
-                source: "spiegel"
+                source: "spiegel",
+                query:""
             }, {
                 id: "2",
                 type: "source",
-                source: "pikio"
+                source: "pikio",
+                query:""
+            },
+            {
+                id: "2",
+                type: "query",
+                source: "pikio",
+                query:""
             }
         ]
     }
@@ -26,9 +34,16 @@ class App extends Component {
             <div className="App">
                 <Sidebar newsColumns={this.state.newsColumns}/>
                 <div style={columnWrapper}>
-                    {this.state.newsColumns.map((column) => (
-                        <NewsColumn column={column}/>
-                    ))}
+                    {this.state.newsColumns.map((column) => {
+                        switch (column.type) {
+                            case "source":
+                                return <ArticleColumn column={column}/>
+                                break;
+                            case "query":
+                                return <ArticleColumn column={column}/>
+                                break;
+                        }
+                    })}
                 </div>
             </div>
         );
