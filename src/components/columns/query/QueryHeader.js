@@ -1,22 +1,19 @@
 import React, {Component} from 'react';
-import Radium from "radium";
 import SliderButton from "../buttons/SliderButton";
 
-
-class ColumnHeader extends Component {
+class QueryHeader extends Component {
     render() {
         return (
             <div style={headLineWrapper} >
                 <h2 style={headlineStyle}>
-                    <i style={{color: "gray", paddingRight: "0.3rem"}}class="far fa-newspaper"></i> Source <span style={{color: "gray", fontSize: "0.78rem"}}>@{firstToUpperCase(this.props.source)}</span>
+                    <i style={{color: "gray", paddingRight: "0.3rem"}} class="fas fa-search"></i>
+                    Query <span style={{color: "gray", fontSize: "0.75rem", fontFamily:"Helvetica"}}>#{this.props.query}</span>
                 </h2>
-                <SliderButton source={this.props.source}/>
+                <SliderButton source={this.props.query}/>
             </div>
         );
     }
 }
-
-ColumnHeader = Radium(ColumnHeader)
 
 let firstToUpperCase = (string) => {
     return string[0].toUpperCase() + string.slice(1);
@@ -39,4 +36,4 @@ const headlineStyle = {
 
 }
 
-export default ColumnHeader;
+export default QueryHeader;

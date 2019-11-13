@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ColumnOverviewButton from "../bottom/buttons/ColumnOverviewButton";
+import ColumnOverviewButton from "./buttons/ColumnOverviewButton";
 import AddColumnButton from "./buttons/AddColumnButton";
 
 class SidebarTop extends Component {

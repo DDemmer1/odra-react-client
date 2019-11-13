@@ -4,6 +4,7 @@ import './fontawesome/css/all.css';
 
 import Sidebar from "./components/sidebar/Sidebar";
 import ArticleColumn from "./components/columns/articles/SourceColumn";
+import QueryColumn from "./components/columns/query/QueryColumn";
 
 class App extends Component {
 
@@ -21,10 +22,10 @@ class App extends Component {
                 query:""
             },
             {
-                id: "2",
+                id: "3",
                 type: "query",
-                source: "pikio",
-                query:""
+                source: "all",
+                query:"Tesla"
             }
         ]
     }
@@ -40,7 +41,7 @@ class App extends Component {
                                 return <ArticleColumn column={column}/>
                                 break;
                             case "query":
-                                return <ArticleColumn column={column}/>
+                                return <QueryColumn column={column}/>
                                 break;
                         }
                     })}

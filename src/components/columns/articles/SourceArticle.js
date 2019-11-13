@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Radium from "radium";
-import CommentButton from "./buttons/CommentButton";
-import FlagButton from "./buttons/FlagButton";
-import StarButton from "./buttons/StarButton";
-import ThreeDotsButton from "./buttons/ThreeDotsButton";
+import CommentButton from "../buttons/CommentButton";
+import FlagButton from "../buttons/FlagButton";
+import StarButton from "../buttons/StarButton";
+import ThreeDotsButton from "../buttons/ThreeDotsButton";
 
 class Article extends Component {
     render() {

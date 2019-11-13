@@ -1,6 +1,7 @@
 body{
     /*margin : 0;*/
     background: #e1e8ed;
+    overflow-y: hidden;
 }
 
 a{
