@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import Radium from "radium";
+import SliderButton from "../buttons/SliderButton";
 
 
 class ColumnHeader extends Component {
     render() {
         return (
             <div style={headLineWrapper} >
-                <h2 style={headlineStyle}><i style={{color: "gray", paddingRight: "0.2rem"}}class="far fa-newspaper"></i> {this.props.source}</h2>
-                <i key={this.props.source+"filter"} style={[{color:"#1da1f2",float: "right", paddingRight:"1rem", cursor:"pointer"},hoverStyle]} class="fas fa-sliders-h"></i>
+                <h2 style={headlineStyle}>
+                    <i style={{color: "gray", paddingRight: "0.3rem"}}class="far fa-newspaper"></i>
+                    {this.props.source[0].toUpperCase() + this.props.source.slice(1)}
+                </h2>
+                <SliderButton source={this.props.source}/>
             </div>
         );
     }
@@ -15,11 +19,7 @@ class ColumnHeader extends Component {
 
 ColumnHeader = Radium(ColumnHeader)
 
-const hoverStyle = {
-    ':hover':{
-        filter: "brightness(80%)"
-    }
-}
+
 
 const headLineWrapper = {
     borderBottom: "solid lightgray thin",

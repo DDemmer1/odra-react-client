@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import './App.css';
 import './fontawesome/css/all.css';
 
-import Sidebar from "./components/layout/Sidebar";
-import NewsColumn from "./components/NewsColumn";
+import Sidebar from "./components/sidebar/Sidebar";
+import NewsColumn from "./components/columns/articles/ArticleColumn";
 
 class App extends Component {
-
 
     state = {
         newsColumns: [
@@ -25,19 +24,15 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <div>
-                    <Sidebar newsColumns={this.state.newsColumns} />
-                    <div style={columnWrapper}>
-                        {this.state.newsColumns.map((column) => (
-                            <NewsColumn column={column}/>
-                        ))}
-                    </div>
+                <Sidebar newsColumns={this.state.newsColumns}/>
+                <div style={columnWrapper}>
+                    {this.state.newsColumns.map((column) => (
+                        <NewsColumn column={column}/>
+                    ))}
                 </div>
             </div>
         );
     }
-
-
 }
 
 const columnWrapper = {

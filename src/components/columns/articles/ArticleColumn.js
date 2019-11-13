@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ArticleList from "./ArticleList";
 import axios from "axios";
-import ColumnHeader from "./ColumnHeader";
+import ColumnHeader from "./header/ColumnHeader";
 
 class NewsColumn extends Component {
 
