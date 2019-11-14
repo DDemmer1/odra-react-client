@@ -28,7 +28,7 @@ class QueryColumn extends Component {
     render() {
         return (
             <div style={columnStyle}>
-                <QueryHeader query={this.props.column.query}/>
+                <QueryHeader column={this.props.column}/>
                 <div style={listStyle} className="columnScrollbar">
                     <ArticleList articles={this.state.articles}/>
                 </div>

@@ -14,7 +14,7 @@ class Article extends Component {
                 <p>{topic}</p>
                 <h4 style={{ fontSize: "0.9rem"}}><a href={link}>{headline}</a></h4>
 
-                <span>{new Date(crawlDate).toLocaleString()}</span>
+                <span style={{ fontSize: "0.8rem"}}>{new Date(crawlDate).toLocaleDateString()}</span>
                 <p style={{color:"#b4b4b4"}}>
                     <CommentButton comments={Math.round((Math.random()+1) * 2)}/>
                     <FlagButton flags={Math.round((Math.random()+1) * 2)}/>

@@ -7,7 +7,8 @@ class QueryHeader extends Component {
             <div style={headLineWrapper} >
                 <h2 style={headlineStyle}>
                     <i style={{color: "gray", paddingRight: "0.3rem"}} class="fas fa-search"></i>
-                    Query <span style={{color: "gray", fontSize: "0.75rem", fontFamily:"Helvetica"}}>#{this.props.query}</span>
+                    Query <span style={{color: "gray", fontSize: "0.75rem", fontFamily:"Helvetica"}}>#{this.props.column.query}</span>
+                    <span style={{color: "gray", fontSize: "0.75rem", fontFamily:"Helvetica"}}> @{firstToUpperCase(this.props.column.source)}</span>
                 </h2>
                 <SliderButton source={this.props.query}/>
             </div>

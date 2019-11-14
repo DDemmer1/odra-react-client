@@ -6,6 +6,10 @@ import Sidebar from "./components/sidebar/Sidebar";
 import ArticleColumn from "./components/columns/articles/SourceColumn";
 import QueryColumn from "./components/columns/query/QueryColumn";
 
+
+//TODO finish QueryArticle
+
+
 class App extends Component {
 
     state = {
@@ -26,6 +30,17 @@ class App extends Component {
                 type: "query",
                 source: "all",
                 query:"Tesla"
+            },{
+                id: "5",
+                type: "query",
+                source: "pikio",
+                query:"fake"
+            },
+            {
+                id: "4",
+                type: "query",
+                source: "spiegel",
+                query:"Trump"
             }
         ]
     }
