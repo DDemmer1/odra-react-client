@@ -28,13 +28,27 @@ class ArticleColumn extends Component {
         return (
             <div style={columnStyle} >
                 <ColumnHeader source={this.props.column.source}/>
-                <div style={listStyle} className="columnScrollbar">
+                <div onScroll={this.handleScroll} style={listStyle} className="columnScrollbar">
                     <ArticleList  articles={this.state.articles}/>
                 </div>
             </div>
         );
     }
+
+
+    handleScroll = e => {
+        let element = e.target
+        console.log(element.scrollHeight);
+        console.log(element.clientHeight);
+        console.log(element.scrollTop);
+        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+            alert("End");
+        }
+    }
+
 }
+
+
 
 
 

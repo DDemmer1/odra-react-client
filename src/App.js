@@ -41,6 +41,12 @@ class App extends Component {
                 type: "query",
                 source: "spiegel",
                 query:"Trump"
+            },
+            {
+                id: "5",
+                type: "query",
+                source: "all",
+                query:"Trump"
             }
         ]
     }

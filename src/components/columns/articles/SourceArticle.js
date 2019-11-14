@@ -7,11 +7,11 @@ import ThreeDotsButton from "../buttons/ThreeDotsButton";
 
 class Article extends Component {
     render() {
-        const {headline, crawlDate,  link, topic } = this.props.article;
+        const {headline, crawlDate,  link, topic , sourceName } = this.props.article;
 
         return (
             <div>
-                <p>{topic}</p>
+                <p style={{fontSize: "0.9rem" ,color:"#b4b4b4"}}>@{sourceName}</p>
                 <h4 style={{ fontSize: "0.9rem"}}><a href={link}>{headline}</a></h4>
 
                 <span style={{ fontSize: "0.8rem"}}>{new Date(crawlDate).toLocaleDateString()}</span>
