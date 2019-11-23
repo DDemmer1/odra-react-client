@@ -7,17 +7,19 @@ class ArticleColumn extends Component {
 
 
     state = {
-        articles: []
+        articles: [],
+        limit:20,
+        loading: false
     }
 
 
     componentDidMount() {
-        axios.get("http://localhost:8080/articles/source/"+this.props.column.source+"?limit=20")
+        axios.get("http://localhost:8080/articles/source/"+this.props.column.source+"?limit=" + this.state.limit)
             .then((result) => that.setState({articles: result.data}));
         //start 5sec refresh
         var that = this;
         window.setInterval(function() {
-            axios.get("http://localhost:8080/articles/source/"+that.props.column.source+"?limit=20")
+            axios.get("http://localhost:8080/articles/source/"+that.props.column.source+"?limit="  + that.state.limit)
                 .then((result) => that.setState({articles: result.data}))},
             5000
         );
@@ -38,11 +40,15 @@ class ArticleColumn extends Component {
 
     handleScroll = e => {
         let element = e.target
-        console.log(element.scrollHeight);
-        console.log(element.clientHeight);
-        console.log(element.scrollTop);
-        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-            alert("End");
+        if (element.scrollHeight - element.scrollTop === element.clientHeight && this.state.loading === false ) {
+            this.state.loading = true;
+            console.log(this.state.limit)
+            axios.get("http://localhost:8080/articles/source/"+this.props.column.source+"?limit=" + this.state.limit+2)
+                .then((result) => this.setState({articles: result.data}));
+            this.state.limit = this.state.limit+2;
+            this.state.loading = false;
+
+
         }
     }
 

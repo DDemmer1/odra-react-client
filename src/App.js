@@ -28,11 +28,6 @@ class App extends Component {
             {
                 id: "3",
                 type: "query",
-                source: "all",
-                query:"Tesla"
-            },{
-                id: "5",
-                type: "query",
                 source: "pikio",
                 query:"fake"
             },
