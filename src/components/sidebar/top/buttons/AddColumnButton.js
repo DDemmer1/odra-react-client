@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import Radium from "radium";
 
 class AddColumnButton extends Component {
+
     render() {
         return (
             <React.Fragment>
-                <div style={wrapper} key="add">
-                    <div style={icon}><i class="fas fa-plus"></i></div>
+                <div onClick={() => {this.props.toggle()}} style={wrapper} key="add"  >
+                    <div  style={icon}><i class="fas fa-plus"></i></div>
                     <div style={iconText}>Add column</div>
                 </div>
             </React.Fragment>
@@ -15,6 +16,10 @@ class AddColumnButton extends Component {
 }
 
 AddColumnButton = Radium(AddColumnButton);
+
+// let addPopup = () => {
+//     alert("popup");
+// }
 
 
 const wrapper = {

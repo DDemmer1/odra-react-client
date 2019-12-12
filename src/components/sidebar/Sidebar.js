@@ -10,7 +10,7 @@ class Sidebar extends Component {
         return (
             <div style={navBarWrapper}>
                 <nav style={sidebar}>
-                    <SidebarTop newsColumns={this.props.newsColumns}/>
+                    <SidebarTop newsColumns={this.props.newsColumns} toggle={this.props.toggle}/>
                     <SidebarBottom/>
                 </nav>
             </div>

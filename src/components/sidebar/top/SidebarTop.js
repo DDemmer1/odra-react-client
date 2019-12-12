@@ -14,7 +14,7 @@ class SidebarTop extends Component {
                         ))}
                     </div>
                     <hr style={{borderColor: "lightsteelblue"}}/>
-                    <AddColumnButton/>
+                    <AddColumnButton toggle={this.props.toggle}/>
                 </ul>
             </React.Fragment>
         );

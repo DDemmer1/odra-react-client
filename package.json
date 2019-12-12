@@ -1,5 +1,6 @@
 {
   "name": "odra-react-client",
+  "homepage" : "localhost",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
