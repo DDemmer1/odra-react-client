@@ -17,6 +17,12 @@ class App extends Component {
         showPopup: false,
         newsColumns: [
             {
+                id: "6",
+                type: "source",
+                source: "test",
+                query: ""
+            },
+            {
                 id: "1",
                 type: "source",
                 source: "spiegel",
