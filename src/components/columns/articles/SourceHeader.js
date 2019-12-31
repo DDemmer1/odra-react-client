@@ -8,9 +8,9 @@ class ColumnHeader extends Component {
         return (
             <div style={headLineWrapper} >
                 <h2 style={headlineStyle}>
-                    <i style={{color: "gray", paddingRight: "0.3rem"}}class="far fa-newspaper"></i> Source <span style={{color: "gray", fontSize: "0.78rem"}}>@{firstToUpperCase(this.props.source)}</span>
+                    <i style={{color: "gray", paddingRight: "0.3rem"}} className="far fa-newspaper"></i> Source <span style={{color: "gray", fontSize: "0.78rem"}}>@{firstToUpperCase(this.props.source)}</span>
                 </h2>
-                <SliderButton source={this.props.source}/>
+                <SliderButton source={this.props.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
             </div>
         );
     }

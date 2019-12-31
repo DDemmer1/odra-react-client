@@ -5,9 +5,18 @@ class SettingsButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <div style={navbarItemBot} key="settings">
-                    <div style={iconBot}><i class="fas fa-cog"></i></div>
-                    <div style={iconTextBot}> Settings</div>
+
+
+                <div className="btn-group dropright">
+                    <div style={navbarItemBot} key="settings" className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div style={iconBot}><i className="fas fa-cog"></i></div>
+                        <div style={iconTextBot}> Settings</div>
+                    </div>
+                    <div className="dropdown-menu">
+                        <button className="dropdown-item" type="button" onClick={() => {this.props.onLogout()}}>Logout</button>
+                        <button className="dropdown-item" type="button">Another action</button>
+                        <button className="dropdown-item" type="button">Something else here</button>
+                    </div>
                 </div>
             </React.Fragment>
         );

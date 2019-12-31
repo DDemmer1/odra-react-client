@@ -6,6 +6,7 @@ import NotificationButton from "./buttons/NotificationButton";
 import MessageButton from "./buttons/MessageButton";
 import SettingsButton from "./buttons/SettingsButton";
 import ProfileButton from "./buttons/ProfileButton";
+import AdminButton from "./buttons/AdminButton";
 
 class SidebarBottom extends Component {
     render() {
@@ -15,7 +16,9 @@ class SidebarBottom extends Component {
                     <CollapseButton/>
                     <NotificationButton/>
                     <MessageButton/>
-                    <SettingsButton/>
+                    <SettingsButton onLogout={this.props.onLogout}/>
+                    {/*{localStorage.getItem("isAdmin","true") ? <AdminButton/> : null}*/}
+                    <AdminButton toggle={this.props.toggle}/>
                     <ProfileButton/>
                 </ul>
                 <LogoBottom/>

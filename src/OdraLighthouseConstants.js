@@ -1,0 +1,1 @@
+export const API_SCRAPER_CONTROLLER_URL = "http://localhost:8888/scraper-controller";

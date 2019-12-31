@@ -4,7 +4,7 @@ class FlagButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <i style={articleItem} class="far fa-flag"></i> {this.props.flags}
+                <i style={articleItem} className="far fa-flag"></i> {this.props.flags}
             </React.Fragment>
         );
     }

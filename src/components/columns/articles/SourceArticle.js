@@ -7,7 +7,7 @@ import ThreeDotsButton from "../buttons/ThreeDotsButton";
 
 class Article extends Component {
     render() {
-        const {headline, crawlDate,  link, topic , sourceName } = this.props.article;
+        const {headline, crawlDate,  link , sourceName } = this.props.article;
 
         return (
             <div>

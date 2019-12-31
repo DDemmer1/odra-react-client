@@ -4,7 +4,7 @@ class ThreeDotsButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <i style={articleItem} class="fas fa-ellipsis-h"></i>
+                <i style={articleItem} className="fas fa-ellipsis-h"></i>
             </React.Fragment>
         );
     }

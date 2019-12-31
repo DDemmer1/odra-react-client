@@ -6,7 +6,7 @@ class CollapseButton extends Component {
         return (
             <React.Fragment>
                 <div style={navbarItemBot} key="collapse">
-                    <div style={iconBot}><i class="fas fa-angle-double-left"></i></div>
+                    <div style={iconBot}><i className="fas fa-angle-double-left"></i></div>
                     <div style={iconTextBot}> Collapse</div>
                 </div>
             </React.Fragment>

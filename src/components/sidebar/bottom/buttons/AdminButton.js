@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 import Radium from "radium";
 
-class MessageButton extends Component {
+class AdminButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <div style={navbarItemBot} key="messages">
-                    <div style={iconBot}><i className="far fa-envelope"></i></div>
-                    <div style={iconTextBot}> Messages</div>
+                <div style={navbarItemBot} key="admin" onClick={() => {this.props.toggle("admin")}}>
+                    <div style={iconBot}><i className="fas fa-user-shield"></i></div>
+                    <div style={iconTextBot}> Admin</div>
                 </div>
             </React.Fragment>
         );
     }
 }
 
-MessageButton = Radium(MessageButton);
-
+AdminButton = Radium(AdminButton);
 
 const navbarItemBot = {
     ':hover': {
@@ -40,4 +39,4 @@ const iconTextBot = {
     display: "inline-block"
 }
 
-export default MessageButton;
+export default AdminButton;

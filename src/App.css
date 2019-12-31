@@ -1,5 +1,4 @@
 body{
-    /*margin : 0;*/
     background: #e1e8ed;
     overflow-y: hidden;
 }
@@ -8,6 +7,9 @@ a{
     color: #2A3F54;
 }
 
+
+
+/*custom scrollbar --START--*/
 
 /* width */
 .columnScrollbar::-webkit-scrollbar {
@@ -31,4 +33,66 @@ a{
 .columnScrollbar::-webkit-scrollbar-thumb:hover {
     background: #7d94aa;
 }
+/*custom scrollbar --END--*/
 
+
+
+/*Loading gif --START--*/
+.lds-ring {
+    margin: auto;
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+}
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    margin: 8px 8px 8px 7.3rem;
+    border: 2px solid #000000;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #000000 transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/*loading gif --END--*/
+
+
+/*Remove arrow from Bootstrap Dropdown*/
+
+.dropdown-toggle::after {
+    content: none !important;
+}
+
+/*Set Dropdown offset*/
+.dropright .dropdown-menu{
+    margin-left: 5.6rem;
+}
+
+/*Odra CD*/
+.odra-color{
+    color: rgb(29, 161, 242);
+}
+
+.odra-bg-color{
+    background-color: rgb(29, 161, 242);
+}

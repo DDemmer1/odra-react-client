@@ -4,7 +4,7 @@ class StarButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <i style={articleItem} class="far fa-star"></i> {this.props.stars}
+                <i style={articleItem} className="far fa-star"></i> {this.props.stars}
             </React.Fragment>
         );
     }

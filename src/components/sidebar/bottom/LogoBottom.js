@@ -7,7 +7,7 @@ class LogoBottom extends Component {
         return (
             <React.Fragment>
                 <div className="sidebar-header">
-                    <h3 style={headlineStyle}><img style={logoStyle} src={logo}/> ODRA<i
+                    <h3 style={headlineStyle}><img style={logoStyle} src={logo} alt="odra-logo"/> ODRA<i
                         style={lighthouse}>lighthouse</i>
                     </h3>
                 </div>

@@ -6,8 +6,8 @@ class AddColumnButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <div onClick={() => {this.props.toggle()}} style={wrapper} key="add"  >
-                    <div  style={icon}><i class="fas fa-plus"></i></div>
+                <div onClick={() => {this.props.toggle("addColumn")}} style={wrapper} key="add"  >
+                    <div  style={icon}><i className="fas fa-plus"></i></div>
                     <div style={iconText}>Add column</div>
                 </div>
             </React.Fragment>

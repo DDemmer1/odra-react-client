@@ -1,15 +1,45 @@
 import React, {Component} from 'react';
 import Radium from "radium"
+import axios from "axios/index";
+import * as con from "../../../OdraLighthouseConstants.js";
+
+
 
 class SliderButton extends Component {
+
+    componentDidMount= () => {
+        axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+    };
+
+    handleSubmit = () => {
+        console.log(this.props.column.id);
+        let that = this;
+        axios.get("http://localhost:8888" + "/user/delete/column?columnid=" + this.props.column.id)
+            .then((result) => {
+                console.log(result.data);
+                that.props.refreshColumns();});
+    };
+
     render() {
         return (
             <React.Fragment>
-                <i key={this.props.source+"filter"} style={style} class="fas fa-sliders-h"></i>
+
+                <div className="btn-group " style={{float:"right"}}>
+                    <div key="settings" className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i key={this.props.source+"filter"} style={style} className="fas fa-sliders-h"></i>
+                    </div>
+                    <div className="dropdown-menu">
+                        <button onClick={()=>{this.handleSubmit()}} className="dropdown-item" type="button"><i className="fas fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+
+
             </React.Fragment>
         );
     }
 }
+
+
 
 SliderButton = Radium(SliderButton);
 

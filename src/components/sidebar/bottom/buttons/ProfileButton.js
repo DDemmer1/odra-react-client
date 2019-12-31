@@ -6,7 +6,7 @@ class ProfileButton extends Component {
         return (
             <React.Fragment>
                 <div style={navbarItemBot} key="profile">
-                    <div style={iconBot}><i class="far fa-user"></i></div>
+                    <div style={iconBot}><i className="far fa-user"></i></div>
                     <div style={iconTextBot}> Profile</div>
                 </div>
             </React.Fragment>

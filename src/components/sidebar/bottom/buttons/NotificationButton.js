@@ -6,7 +6,7 @@ class NotificationButton extends Component {
         return (
             <React.Fragment>
                 <div style={navbarItemBot} key="notification">
-                    <div style={iconBot}><i class="far fa-bell"></i></div>
+                    <div style={iconBot}><i className="far fa-bell"></i></div>
                     <div style={iconTextBot}> Notifications</div>
                 </div>
             </React.Fragment>

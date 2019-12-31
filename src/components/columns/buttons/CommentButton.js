@@ -4,7 +4,7 @@ class CommentButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <i style={articleItem} class="far fa-comment"></i> {this.props.comments}
+                <i style={articleItem} className="far fa-comment"></i> {this.props.comments}
             </React.Fragment>
         );
     }
