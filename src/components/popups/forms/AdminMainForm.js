@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import QueryColumnForm from "./QueryColumnForm";
-import SourceColumnForm from "./SourceColumnForm";
 import Radium from "radium";
 import ScraperForm from "./ScraperForm";
 

@@ -18,10 +18,8 @@ class Popup extends Component {
                         switch(that.props.popUpType) {
                             case 'addColumn':
                                 return <AddColumnForm key="addColumnForm" addColumn={that.props.addColumn}/>;
-                                break;
                             case 'admin':
                                 return <AdminMainForm key="adminMainForm"/>;
-                                break;
                             default:
                                 // return null;
                                 return <AdminMainForm key="adminMainForm"/>;

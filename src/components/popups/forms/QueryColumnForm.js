@@ -42,7 +42,7 @@ class QueryColumnForm extends Component {
                     this.handleSubmit(event)
                 }}>
                     <div className="form-group" style={form}>
-                        <label className="col-form-label" for="source">News-Source: </label>
+                        <label className="col-form-label" htmlFor="source">News-Source: </label>
                         <select className="custom-select" name="source" onChange={(event) => {
                             this.setState({source: event.target.value})
                         }}>{
@@ -52,7 +52,7 @@ class QueryColumnForm extends Component {
                         }
                         </select>
 
-                        <label className="mt-3" for="query">Query: </label><input className="form-control" required name="query"
+                        <label className="mt-3" htmlFor="query">Query: </label><input className="form-control" required name="query"
                                                                  onChange={(event) => {
                                                                      this.setState({query: event.target.value})
                                                                  }}/>

@@ -17,13 +17,13 @@ class ArticleColumn extends Component {
 
 
     componentDidMount() {
-        axios.get(this.props.apiUrl + "articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
+        axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
             .then((result) => that.setState({articles: result.data}));
         //start 5sec refresh
         var that = this;
 
         window.setInterval(function () {
-                axios.get(that.props.apiUrl + "articles/source/" + that.props.column.source + "?limit=" + that.state.limit)
+                axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit=" + that.state.limit)
                     .then((result) => that.setState({articles: result.data}))
             },
             15000
@@ -49,7 +49,7 @@ class ArticleColumn extends Component {
         if (element.scrollHeight - element.scrollTop === element.clientHeight && this.state.loading === false && this.state.limit < this.state.articles.length +20) {
             this.setState({loading: true}, () => {
                 this.setState({limit: this.state.limit + 20}, () => {
-                    axios.get(this.props.apiUrl + "articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
+                    axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
                         .then((result) => this.setState({articles: result.data}, () => {
                             this.setState({loading: false})
                         }))
