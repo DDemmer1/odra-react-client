@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import * as axios from "axios";
 import LoginError from "./LoginError";
+import * as con from "../../OdraLighthouseConstants";
+
 
 
 class LoginForm extends Component {
@@ -18,7 +20,7 @@ class LoginForm extends Component {
         event.preventDefault();
         var that = this;
 
-        axios.post("http://localhost:8888/api/auth/signin", {
+        axios.post(con.API_BASE_URL+ "/api/auth/signin", {
             usernameOrEmail: this.state.username,
             password: this.state.password
         })

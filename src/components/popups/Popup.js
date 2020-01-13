@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import AddColumnForm from "./forms/AddColumnForm";
-import AdminMainForm from "./forms/AdminMainForm";
+import AddColumnForm from "./forms/addColumns/AddColumnForm";
+import AdminMainForm from "./forms/admin/AdminMainForm";
 
 
 class Popup extends Component {

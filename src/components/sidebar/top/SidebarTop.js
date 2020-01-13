@@ -10,7 +10,7 @@ class SidebarTop extends Component {
                 <ul className="list-unstyled">
                     <div>
                         {this.props.newsColumns.map((column) => (
-                            <ColumnOverviewButton column={column}/>
+                            <ColumnOverviewButton key={"columnOverview"+column.id} column={column}/>
                         ))}
                     </div>
                     <hr style={{borderColor: "lightsteelblue"}}/>

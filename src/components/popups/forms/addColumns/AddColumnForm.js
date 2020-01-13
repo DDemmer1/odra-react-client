@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import QueryColumnForm from "./QueryColumnForm";
-import SourceColumnForm from "./SourceColumnForm";
+import QueryColumnForm from "./news/QueryColumnForm";
+import SourceColumnForm from "./news/SourceColumnForm";
 import Radium from "radium";
+import SocialMediaMainForm from "./socialmedia/SocialMediaMainForm";
 
 
 class AddColumnForm extends Component {
 
     state = {
         query: false,
-        source: false
+        source: false,
+        social: false
     };
 
     reset() {
@@ -23,6 +25,10 @@ class AddColumnForm extends Component {
         this.setState({source: true});
     }
 
+    handleClickSocial() {
+        this.setState({social: true});
+    }
+
     render() {
         return (
 
@@ -33,6 +39,9 @@ class AddColumnForm extends Component {
                                                 addColumn={that.props.addColumn}/>
                     } else if (that.state.source) {
                         return <SourceColumnForm key="sourceColumnForm" onBack={that.reset.bind(that)}
+                                                 addColumn={that.props.addColumn}/>
+                    } else if (that.state.social) {
+                        return <SocialMediaMainForm key="socialMediaMainForm" onBack={that.reset.bind(that)}
                                                  addColumn={that.props.addColumn}/>
                     } else {
                         return <React.Fragment>
@@ -54,6 +63,14 @@ class AddColumnForm extends Component {
                                     <span><i key="searchIcon" style={iconStyle} className="fas fa-search"></i> <p
                                         style={textStyle}>Search</p></span>
                                 </div>
+
+                                {/*Social Media Button*/}
+                                <div onClick={() => {
+                                    that.handleClickSocial();
+                                }} className="text-center col" style={buttonWrapper} key="hashTag">
+                                    <span><i key="hashTagIcon" style={iconStyle} className="fas fa-hashtag"></i> <p
+                                        style={textStyle}>Social Media</p></span>
+                                </div>
                             </div>
                         </React.Fragment>
                     }
@@ -68,7 +85,8 @@ class AddColumnForm extends Component {
 
 const initialState = {
     query: false,
-    source: false
+    source: false,
+    social: false
 };
 
 const textStyle = {

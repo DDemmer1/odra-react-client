@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import Radium from "radium";
-import * as con from "../../../OdraLighthouseConstants";
+import * as con from "../../../../../OdraLighthouseConstants";
 import axios from "axios/index";
 
 
-class QueryColumnForm extends Component {
+
+class SourceColumnForm extends Component {
 
 
     state = {
         query: null,
         source: "",
-        type: "query",
-        scrapers: [],
-    }
+        type: "source",
+        sourceOptions: [],
+        scrapers: []
+    };
 
     componentDidMount() {
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
@@ -23,7 +25,6 @@ class QueryColumnForm extends Component {
                 that.setState({scrapers: result.data});
                 that.setState({source: this.state.scrapers[0].name})
             });
-
     }
 
 
@@ -36,30 +37,24 @@ class QueryColumnForm extends Component {
     render() {
         return (
             <div>
-                <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Add a Search column</h5>
+                <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Add a News-Source column</h5>
                 <hr/>
                 <form onSubmit={(event) => {
                     this.handleSubmit(event)
-                }}>
+                }} >
                     <div className="form-group" style={form}>
                         <label className="col-form-label" htmlFor="source">News-Source: </label>
-                        <select className="custom-select" name="source" onChange={(event) => {
+                        <select style={{textTransform: "capitalize"}} className="custom-select" name="source" onChange={(event) => {
                             this.setState({source: event.target.value})
                         }}>{
                             this.state.scrapers.map((scraper) => (
-                                <option>{scraper.name}</option>
+                                <option style={{textTransform: "capitalize"}} key={scraper.id}>{scraper.name}</option>
                             ))
                         }
                         </select>
-
-                        <label className="mt-3" htmlFor="query">Query: </label><input className="form-control" required name="query"
-                                                                 onChange={(event) => {
-                                                                     this.setState({query: event.target.value})
-                                                                 }}/>
                         <button className="btn odra-bg-color btn-primary mt-3" type="submit">Submit</button>
                     </div>
                 </form>
-
                 <button className="btn btn-primary btn-sm odra-color" style={backButton} onClick={() => {
                     this.props.onBack()
                 }}><i className="fas fa-long-arrow-alt-left"></i> Back
@@ -84,8 +79,9 @@ const backButton = {
 
 const form = {
     padding: "0.5rem 3.5rem "
-}
+};
 
-QueryColumnForm = Radium(QueryColumnForm);
+SourceColumnForm = Radium(SourceColumnForm);
 
-export default QueryColumnForm;
+
+export default SourceColumnForm;

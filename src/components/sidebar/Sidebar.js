@@ -10,8 +10,8 @@ class Sidebar extends Component {
         return (
             <div style={navBarWrapper}>
                 <nav style={sidebar}>
-                    <SidebarTop newsColumns={this.props.newsColumns} toggle={this.props.toggle}/>
-                    <SidebarBottom onLogout={this.props.onLogout} toggle={this.props.toggle}/>
+                    <SidebarTop key="sidebarTop" newsColumns={this.props.newsColumns} toggle={this.props.toggle}/>
+                    <SidebarBottom key="sidebarBottom" onLogout={this.props.onLogout} toggle={this.props.toggle}/>
                 </nav>
             </div>
         );

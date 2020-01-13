@@ -3,8 +3,11 @@ import './App.css';
 import './fontawesome/css/all.css';
 
 import Sidebar from "./components/sidebar/Sidebar";
-import ArticleColumn from "./components/columns/articles/SourceColumn";
-import QueryColumn from "./components/columns/query/QueryColumn";
+import ArticleColumn from "./components/columns/news/source/SourceColumn";
+import QueryColumn from "./components/columns/news/query/QueryColumn";
+import TwitterColumn from "./components/columns/socialmedia/twitter/TwitterColumn";
+import FacebookColumn from "./components/columns/socialmedia/facebook/FacebookColumn";
+import RedditColumn from "./components/columns/socialmedia/reddit/RedditColumn";
 import Popup from "./components/popups/Popup";
 import LoginForm from "./components/login/LoginForm";
 import axios from "axios/index";
@@ -32,17 +35,25 @@ class App extends Component {
     }
 
     componentDidMount() {
+
         let that = this;
-        axios.get("http://localhost:8888/user/get/columns")
+        axios.get(con.API_BASE_URL + "/user/get/columns")
             .then((result) => that.setState({newsColumns: result.data}))
             .catch(function (error) {
                 that.onError();
             });
+        axios.get(con.API_BASE_URL + "/api/auth/isAdmin")
+            .then((result) => {
+                if (result.data.success === true) {
+                    localStorage.setItem("isAdmin", "true");
+                }
+            });
+
     }
 
     refreshColumns() {
         let that = this;
-        axios.get(con.API_BASE_URL+ "/user/get/columns")
+        axios.get(con.API_BASE_URL + "/user/get/columns")
             .then((result) => that.setState({newsColumns: result.data}))
             .catch(function (error) {
                 that.onError();
@@ -58,12 +69,12 @@ class App extends Component {
     };
 
     addColumn = (source, type, query) => {
-        console.log(source);
-        console.log(type);
-        console.log(query);
+        // console.log(source);
+        // console.log(type);
+        // console.log(query);
         let that = this;
-        axios.get(con.API_BASE_URL+ "/user/add/column?source=" + source + "&type=" + type + "&query=" + query).then((result) => {
-            axios.get(con.API_BASE_URL+ "/user/get/columns").then((result) => that.setState({newsColumns: result.data}))
+        axios.get(con.API_BASE_URL + "/user/add/column?source=" + source + "&type=" + type + "&query=" + query).then((result) => {
+            axios.get(con.API_BASE_URL + "/user/get/columns").then((result) => that.setState({newsColumns: result.data}))
         }).catch(function (error) {
             that.onError();
         });
@@ -83,7 +94,7 @@ class App extends Component {
         this.setState({isAuthenticated: "true"});
         this.setState({token: localStorage.getItem("token", token)});
         let that = this;
-        axios.get(con.API_BASE_URL+ "/user/get/columns")
+        axios.get(con.API_BASE_URL + "/user/get/columns")
             .then((result) => that.setState({newsColumns: result.data}));
         window.location.reload();
     };
@@ -100,15 +111,27 @@ class App extends Component {
             <div className="App">
                 {this.state.isAuthenticated === "true"
                     ? <>
-                        <Sidebar newsColumns={this.state.newsColumns} toggle={this.togglePopup.bind(this)}
+                        <Sidebar key="sidebar" newsColumns={this.state.newsColumns} toggle={this.togglePopup.bind(this)}
                                  onLogout={this.onLogout.bind(this)}/>
                         <div style={columnWrapper}>
                             {this.state.newsColumns.map((column) => {
                                 switch (column.type) {
                                     case "source":
-                                        return <ArticleColumn column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        return <ArticleColumn key={column.id} column={column}
+                                                              refreshColumns={this.refreshColumns.bind(this)}/>;
                                     case "query":
-                                        return <QueryColumn column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        return <QueryColumn key={column.id} column={column}
+                                                            refreshColumns={this.refreshColumns.bind(this)}/>;
+                                    case "socialmedia":
+                                        if (column.source === "twitter") {
+                                            return <TwitterColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        } else if(column.source === "facebook"){
+                                            return <FacebookColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        } else if(column.source === "reddit"){
+                                            return <RedditColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        } else {
+                                            return "";
+                                        }
                                     default:
                                         return "";
                                 }

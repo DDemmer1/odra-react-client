@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import Radium from "radium";
 import ScraperForm from "./ScraperForm";
+import UserForm from "./UserForm";
 
 
 class AdminMainForm extends Component {
 
     state = {
-        scraper: false
+        scraper: false,
+        user: false
     };
 
     reset() {
@@ -17,6 +19,10 @@ class AdminMainForm extends Component {
         this.setState({scraper: true});
     }
 
+    handleClickAddUser() {
+        this.setState({user: true});
+    }
+
     render() {
         return (
 
@@ -24,32 +30,40 @@ class AdminMainForm extends Component {
                 {(function (that) {
                     if (that.state.scraper) {
                         return <ScraperForm key="queryColumnForm" onBack={that.reset.bind(that)} />
+                    } if(that.state.user){
+                        return <UserForm key="userColumnForm" onBack={that.reset.bind(that)} />
                     } else {
                         return <React.Fragment>
                             <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Choose an Admin setting</h5>
                             <hr/>
                             <div className="row text-center" style={buttonsDiv}>
-                                {/*Source Button*/}
+                                {/*Scraper Button*/}
                                 <div onClick={() => {
                                     that.handleClickScraper();
                                 }} className="text-center col" key="sourceButtonWrapper" style={buttonWrapper}>
                                     <span><i style={iconStyle} className="far fa-newspaper"></i> <p
                                         style={textStyle}>Scraper</p></span>
                                 </div>
+                                <div onClick={() => {
+                                    that.handleClickAddUser();
+                                }} className="text-center col" key="addUserButtonWrapper" style={buttonWrapper}>
+                                    <span><i style={iconStyle} className="fas fa-users"></i> <p
+                                        style={textStyle}>User Management</p></span>
+                                </div>
                             </div>
                         </React.Fragment>
                     }
                 })(this)}
-
-
             </div>
         );
     }
+
 }
 
 
 const initialState = {
     scraper: false,
+    user: false
 };
 
 const textStyle = {

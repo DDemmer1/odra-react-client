@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios/index";
 import Radium from "radium";
-import * as con from "../../../OdraLighthouseConstants.js";
-import LoadingButton from "../../columns/buttons/LoadingButton";
+import * as con from "../../../../OdraLighthouseConstants.js";
+import LoadingButton from "../../../columns/buttons/LoadingButton";
 
 
 class ScraperForm extends Component {
@@ -37,7 +37,8 @@ class ScraperForm extends Component {
         this.resetMessage();
         let that = this;
         this.setState({loading: true});
-        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/add?url=" + this.state.url + "&name=" + this.state.name)
+        // axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/add?url=" + this.state.url + "&name=" + this.state.name)
+        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/add?url=" + this.state.url)
             .then((result) => {
                 this.setState({message: result.data.message});
                 this.setState({loading: false})
@@ -55,18 +56,20 @@ class ScraperForm extends Component {
     };
 
     handleDelete = (url) => {
-        console.log(url);
-        let that = this;
-        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/delete?url=" + url)
-            .then((result) => axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/get")
-                .then((result) => {
-                    that.setState({scrapers: result.data});
-                    that.resetMessage();
-                }));
+
+        if (window.confirm('Are you sure you want to delete this Scraper link?')) {
+            let that = this;
+            axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/delete?url=" + url)
+                .then((result) => axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/get")
+                    .then((result) => {
+                        that.setState({scrapers: result.data});
+                        that.resetMessage();
+                    }));
+        }
     };
 
     resetInput = () => {
-        this.nameInput.value = "";
+        // this.nameInput.value = "";
         this.urlInput.value = "";
     };
 
@@ -75,21 +78,23 @@ class ScraperForm extends Component {
             <div>
                 <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Delete or add a Scraper</h5>
                 <div style={form}>
-                    <table className="table table-hover">
+                    <table className="table  table-hover table-responsive" >
 
                         <thead>
                         <tr>
                             <th scope="col">Source</th>
                             <th scope="col">Scraper URL</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
                             this.state.scrapers.map((scraper) => (
-                                <tr>
+                                <tr key={scraper.id}>
                                     <td>{scraper.name}</td>
-                                    <td>{scraper.url}</td>
+                                    <td style={{wordBreak: "break-all"}}>{scraper.url}</td>
+                                    <td>{scraper.error ? <i style={{color:"red"}} class="fas fa-exclamation-circle"></i> : <i style={{color:"green"}} className="far fa-check-circle"></i>}</td>
                                     <td>
                                         <button className="btn mr-2" onClick={() => {
                                             this.handleDelete(scraper.url)
@@ -112,12 +117,12 @@ class ScraperForm extends Component {
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton"
                          style={{marginLeft: "-12.8rem"}}>
                         <div className="input-group mb-3 pr-2 pt-2 pl-2">
-                            <input required type="text" className="form-control" placeholder="Name"
-                                   ref={el => this.nameInput = el}
+                            {/*<input required type="text" className="form-control" placeholder="Name"*/}
+                                   {/*ref={el => this.nameInput = el}*/}
 
-                                   aria-label="Name" aria-describedby="button-addon2" onChange={(event) => {
-                                this.setState({name: event.target.value})
-                            }}/>
+                                   {/*aria-label="Name" aria-describedby="button-addon2" onChange={(event) => {*/}
+                                {/*this.setState({name: event.target.value})*/}
+                            {/*}}/>*/}
                             <input required type="text" className="form-control" placeholder="Scraper URL"
                                    ref={el => this.urlInput = el}
                                    aria-label="Scraper URL" aria-describedby="button-addon2" onChange={(event) => {
@@ -136,14 +141,17 @@ class ScraperForm extends Component {
                 </div>
                 {/*Dropdown END*/}
 
-                {this.state.loading ? <div className="rounded-lg" style={loading}><span style={loadingText}>Validating</span> <LoadingButton/></div> : null}
+                {this.state.loading ?
+                    <div className="rounded-lg" style={loading}><span style={loadingText}>Validating</span>
+                        <LoadingButton/></div> : null}
 
                 {this.state.success ? <div style={responseSuccess} className="rounded-lg">
-                    <h5 style={{color:"green", fontWeight:"700"}} className="text-center">SUCCESS</h5>{this.state.message}
+                    <h5 style={{color: "green", fontWeight: "700"}}
+                        className="text-center">SUCCESS</h5>{this.state.message}
                 </div> : null}
 
                 {this.state.error ? <div style={responseError} className="rounded-lg">
-                    <h5 style={{color:"red", fontWeight:"700"}} className="text-center">ERROR</h5>{this.state.message}
+                    <h5 style={{color: "red", fontWeight: "700"}} className="text-center">ERROR</h5>{this.state.message}
                 </div> : null}
 
 

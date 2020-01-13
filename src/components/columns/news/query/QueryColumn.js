@@ -1,41 +1,39 @@
 import React, {Component} from 'react';
-import ArticleList from "./SourceList";
+import QueryHeader from "./QueryHeader";
+import ArticleList from "../source/ArticleList";
 import axios from "axios";
-import ColumnHeader from "./SourceHeader";
-import LoadingButton from "../buttons/LoadingButton";
-import * as con from "../../../OdraLighthouseConstants.js";
+import LoadingButton from "../../buttons/LoadingButton";
+import * as con from "../../../../OdraLighthouseConstants.js";
 
 
-class ArticleColumn extends Component {
 
+class QueryColumn extends Component {
 
     state = {
         articles: [],
         limit: 20,
-        loading: false
-    }
+        loading: false,
+        maxLimit: 0
+    };
 
 
     componentDidMount() {
-        axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
+        axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit="+this.state.limit+"&query=" + this.props.column.query)
             .then((result) => that.setState({articles: result.data}));
         //start 5sec refresh
         var that = this;
-
         window.setInterval(function () {
-                axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit=" + that.state.limit)
-                    .then((result) => that.setState({articles: result.data}))
-            },
-            15000
+                axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit="+that.state.limit+"&query=" + that.props.column.query)
+                    .then((result) => that.setState({articles: result.data}));
+            }, 15000
         );
     }
-
 
     render() {
         return (
             <div style={columnStyle}>
-                <ColumnHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
-                <div onScroll={this.handleScroll} style={listStyle} className="columnScrollbar">
+                <QueryHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
+                <div style={listStyle} onScroll={this.handleScroll} className="columnScrollbar">
                     <ArticleList articles={this.state.articles}/>
                     {this.state.loading ? <LoadingButton/> : null}
                 </div>
@@ -49,7 +47,7 @@ class ArticleColumn extends Component {
         if (element.scrollHeight - element.scrollTop === element.clientHeight && this.state.loading === false && this.state.limit < this.state.articles.length +20) {
             this.setState({loading: true}, () => {
                 this.setState({limit: this.state.limit + 20}, () => {
-                    axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
+                    axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit +"&query=" + this.props.column.query)
                         .then((result) => this.setState({articles: result.data}, () => {
                             this.setState({loading: false})
                         }))
@@ -57,8 +55,6 @@ class ArticleColumn extends Component {
             });
         }
     };
-
-
 }
 
 
@@ -79,5 +75,4 @@ const columnStyle = {
 
 }
 
-
-export default ArticleColumn;
+export default QueryColumn;
