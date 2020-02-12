@@ -30,7 +30,7 @@ class LoginForm extends Component {
             .catch(function (error) {
                 that.setState({error: true});
             });
-    }
+    };
 
     render() {
         return (

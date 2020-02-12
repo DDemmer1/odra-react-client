@@ -27,19 +27,26 @@ class ColumnOverviewButton extends Component {
     }
 
 
+    goToColumn(id){
+        let element = document.getElementById("header"+id);
+        let left = element.getBoundingClientRect().left;
+        console.log(left);
+        window.scrollTo({left:left+900,  behavior: "smooth",})
+        // element.scrollIntoView({behavior: "smooth", block: "center"});
+
+
+    }
+
+
     render() {
         let query = (this.props.column.query == "" || this.props.column.query == "null") ? "" : this.getHashTagListFromString(this.props.column.query);
 
         let icon = this.getIcon();
-
-
-
-
         return (
             <React.Fragment>
-                <div className="row" style={[{paddingTop: "1rem", cursor: "pointer"}, hoverStyle]}
+                <div onClick={() => this.goToColumn(this.props.column.id)} className="row" style={[{paddingTop: "1rem", cursor: "pointer"}, hoverStyle]}
                      key={this.props.column.id}>
-                    <div className="col-2">
+                    <div className="col-2" href={"#header"+this.props.column.id}>
                         <i style={{
                             float: "left", color: "#c6c6c6",
                             paddingTop: "0.7rem",

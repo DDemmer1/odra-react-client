@@ -6,7 +6,7 @@ import SliderButton from "../../buttons/SliderButton";
 class ColumnHeader extends Component {
     render() {
         return (
-            <div style={headLineWrapper}>
+            <div style={headLineWrapper} id={"header"+this.props.column.id}>
                 <h2 style={headlineStyle}>
                     <i style={{color: "gray", paddingRight: "0.3rem"}} className="far fa-newspaper"></i> Source
                     <span style={sourceStyle}> @{firstToUpperCase(this.props.source)}</span>
