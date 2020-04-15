@@ -3,14 +3,32 @@ import QueryColumnForm from "./news/QueryColumnForm";
 import SourceColumnForm from "./news/SourceColumnForm";
 import Radium from "radium";
 import SocialMediaMainForm from "./socialmedia/SocialMediaMainForm";
+import StarColumnForm from "./metadata/StarColumnForm";
+import TopicColumnForm from "./metadata/TopicColumnForm";
 
+const initialState = {
+    query: false,
+    source: false,
+    social: false,
+    stars: false,
+    flags: false,
+    user: false,
+    comments: false,
+    topics: false
+};
 
 class AddColumnForm extends Component {
 
     state = {
         query: false,
         source: false,
-        social: false
+        social: false,
+        stars: false,
+        flags: false,
+        user: false,
+        comments: false,
+        topics: false
+
     };
 
     reset() {
@@ -29,6 +47,26 @@ class AddColumnForm extends Component {
         this.setState({social: true});
     }
 
+    handleClickFlags() {
+        this.setState({flags: true});
+    }
+
+    handleClickUser() {
+        this.setState({user: true});
+    }
+
+    handleClickComments() {
+        this.setState({comments: true});
+    }
+
+    handleClickStars() {
+        this.setState({stars: true});
+    }
+
+    handleClickTopics() {
+        this.setState({topics: true});
+    }
+
     render() {
         return (
 
@@ -43,6 +81,12 @@ class AddColumnForm extends Component {
                     } else if (that.state.social) {
                         return <SocialMediaMainForm key="socialMediaMainForm" onBack={that.reset.bind(that)}
                                                  addColumn={that.props.addColumn}/>
+                    } else if (that.state.stars) {
+                        return <StarColumnForm key="starColumnForm" onBack={that.reset.bind(that)}
+                                                    addColumn={that.props.addColumn}/>
+                    } else if (that.state.topics) {
+                        return <TopicColumnForm key="starColumnForm" onBack={that.reset.bind(that)}
+                                               addColumn={that.props.addColumn}/>
                     } else {
                         return <React.Fragment>
                             <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Choose a column type to add</h5>
@@ -71,8 +115,50 @@ class AddColumnForm extends Component {
                                     <span><i key="hashTagIcon" style={iconStyle} className="fas fa-hashtag"></i> <p
                                         style={textStyle}>Social Media</p></span>
                                 </div>
+
+                                {/*Topics Button*/}
+                                <div onClick={() => {
+                                    that.handleClickTopics();
+                                }} className="text-center col" style={buttonWrapper} key="topic">
+                                    <span> <i key="topicIcon" style={iconStyle} className = "fas fa-thumbtack"></i> <p
+                                        style={textStyle}>Topic</p></span>
+                                </div>
+                                {/*Star Button*/}
+                                <div onClick={() => {
+                                    that.handleClickStars();
+                                }} className="text-center col" style={buttonWrapper} key="star">
+                                    <span><i key="starIcon" style={iconStyle} className="far fa-star"></i> <p
+                                        style={textStyle}>Stars</p></span>
+                                </div>
+
+                                {/*Flags Button*/}
+                                <div onClick={() => {
+                                    that.handleClickFlags();
+                                }} className="text-center col" style={buttonWrapper} key="flag">
+                                    <span><i key="flagIcon" style={iconStyle} className="far fa-flag"></i> <p
+                                        style={textStyle}>Flags</p></span>
+                                </div>
+
+                                {/*User Button*/}
+                                <div onClick={() => {
+                                    that.handleClickUser();
+                                }} className="text-center col" style={buttonWrapper} key="user">
+                                    <span><i key="userIcon" style={iconStyle} className="far fa-user"></i> <p
+                                        style={textStyle}>User</p></span>
+                                </div>
+
+                                {/*Comments Button*/}
+                                <div onClick={() => {
+                                    that.handleClickComments();
+                                }} className="text-center col" style={buttonWrapper} key="comment">
+                                    <span><i key="commentIcon" style={iconStyle} className="far fa-comment"></i> <p
+                                        style={textStyle}>Comment</p></span>
+                                </div>
+
+
                             </div>
                         </React.Fragment>
+
                     }
                 })(this)}
 
@@ -81,13 +167,6 @@ class AddColumnForm extends Component {
         );
     }
 }
-
-
-const initialState = {
-    query: false,
-    source: false,
-    social: false
-};
 
 const textStyle = {
     fontFamily: " -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Ubuntu, \"Helvetica Neue\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", Arial, \"ヒラギノ角ゴ Pro W3\", \"Hiragino Kaku Gothic Pro\", メイリオ, Meiryo, \"ＭＳ Ｐゴシック\", \"MS PGothic\"",
@@ -116,7 +195,7 @@ const buttonWrapper = {
         cursor: "pointer",
         transform: "scale(1.08)"
     }
-}
+};
 
 AddColumnForm = Radium(AddColumnForm);
 

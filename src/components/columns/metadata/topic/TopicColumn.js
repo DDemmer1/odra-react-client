@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import QueryHeader from "./QueryHeader";
-import ArticleList from "../source/ArticleList";
 import axios from "axios";
 import LoadingButton from "../../buttons/LoadingButton";
+import ArticleList from "../../news/source/ArticleList";
 import * as con from "../../../../OdraLighthouseConstants.js";
+import TopicHeader from "./TopicHeader";
 
 
-
-class QueryColumn extends Component {
+class TopicColumn extends Component {
 
     state = {
         articles: [],
@@ -17,22 +16,40 @@ class QueryColumn extends Component {
     };
 
 
+    updateColumn(){
+        axios.get(con.API_BASE_URL + "/meta/topic/all/" + this.props.column.query )
+            .then((result) => {
+                console.log(result.data);
+                this.requestArticles(result.data)
+            });
+    }
+
+    requestArticles(topics){
+        let articleIds = [];
+        topics.forEach((topic) => articleIds.push(topic.mediaId));
+        let that = this;
+        axios.post(con.API_SCRAPER_CONTROLLER_URL + "/articles", {articleIds: articleIds})
+            .then((result) => {
+                this.setState({articles:result.data})
+            });
+    }
+
+    intervall;
     componentDidMount() {
-        axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit="+this.state.limit+"&query=" + this.props.column.query)
-            .then((result) => that.setState({articles: result.data}));
+        this.updateColumn();
         //start 5sec refresh
         var that = this;
-        window.setInterval(function () {
-                axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit="+that.state.limit+"&query=" + that.props.column.query)
-                    .then((result) => that.setState({articles: result.data}));
-            }, 15000
-        );
+        this.intervall = window.setInterval(()=> this.updateColumn(), 2000);
+    }
+
+    componentWillUnmount(){
+        window.clearInterval(this.intervall);
     }
 
     render() {
         return (
             <div style={columnStyle}>
-                <QueryHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
+                <TopicHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
                 <div style={listStyle} onScroll={this.handleScroll} className="columnScrollbar">
                     <ArticleList toggle={this.props.toggle} articles={this.state.articles} user={this.props.user}/>
                     {this.state.loading ? <LoadingButton/> : null}
@@ -48,10 +65,7 @@ class QueryColumn extends Component {
         if (Math.floor(element.scrollHeight - element.scrollTop) <= element.clientHeight && this.state.loading === false && this.state.limit < this.state.articles.length +20) {
             this.setState({loading: true}, () => {
                 this.setState({limit: this.state.limit + 20}, () => {
-                    axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit +"&query=" + this.props.column.query)
-                        .then((result) => this.setState({articles: result.data}, () => {
-                            this.setState({loading: false})
-                        }))
+                    this.updateColumn();
                 });
             });
         }
@@ -76,4 +90,4 @@ const columnStyle = {
 
 };
 
-export default QueryColumn;
+export default TopicColumn;

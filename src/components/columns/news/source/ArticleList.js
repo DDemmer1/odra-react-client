@@ -4,7 +4,7 @@ import Article from "../Article";
 class ArticleList extends Component {
     render() {
         return this.props.articles.map((article) => (
-            <Article key={article.id} article={article}/>
+            <Article user={this.props.user} key={article.id} article={article} toggle={this.props.toggle}/>
             )
         );
     }

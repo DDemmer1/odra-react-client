@@ -5,8 +5,6 @@ class SettingsButton extends Component {
     render() {
         return (
             <React.Fragment>
-
-
                 <div className="btn-group dropright">
                     <div style={navbarItemBot} key="settings" className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div style={iconBot}><i className="fas fa-cog"></i></div>
@@ -31,7 +29,7 @@ const navbarItemBot = {
     },
     paddingTop: "0.2rem",
     cursor: "pointer",
-}
+};
 
 const iconBot = {
     verticalAlign: "middle",
@@ -39,13 +37,13 @@ const iconBot = {
     color: "#1da1f2",
     display: "inline-block",
     paddingRight: "0.7rem",
-}
+};
 
 const iconTextBot = {
     verticalAlign: "middle",
     fontSize: "0.9rem",
     fontWeight: "700",
     display: "inline-block"
-}
+};
 
 export default SettingsButton;

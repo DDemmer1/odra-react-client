@@ -1,15 +1,35 @@
 import React, {Component} from 'react';
 import AddColumnForm from "./forms/addColumns/AddColumnForm";
 import AdminMainForm from "./forms/admin/AdminMainForm";
+import CommentsForm from "./forms/comment/CommentsForm";
+import AddTopicForm from "./forms/addTopic/AddTopicForm";
 
 
 class Popup extends Component {
     render() {
         return (
-            <div style={popupOuter} onClick={() => {
-                this.props.toggle()
-            }}>
-                <div  style={popupInner} onClick={(event)=> {event.stopPropagation()}}>
+            <div style={popupOuter} onClick={() => {this.props.toggle()}}>
+
+                {this.props.popUpSize=="big" ?
+                    //Big
+                    <div className="rounded rounded-lg" style={popupInnerBig} onClick={(event)=> {event.stopPropagation()}}>
+                        <button className="btn mr-2" style={closeButton} onClick={() => {
+                            this.props.toggle()
+                        }}><i style={{color:"lightgray",fontSize:"1.2rem"}} className="fas fa-times"></i>
+                        </button>
+                        {(function(that) {
+                            switch(that.props.popUpType) {
+                                case 'comments':
+                                    console.log(that.props.mediaid);
+                                    return <CommentsForm key="commentsForm" mediaid={that.props.mediaid}/>;
+                                default:
+                                    return null;
+                            }
+                        })(this)}
+                    </div>
+                    :
+                    //Small
+                    <div  style={popupInner} onClick={(event)=> {event.stopPropagation()}}>
                     <button className="btn mr-2" style={closeButton} onClick={() => {
                         this.props.toggle()
                     }}><i style={{color:"lightgray",fontSize:"1.2rem"}} className="fas fa-times"></i>
@@ -20,18 +40,15 @@ class Popup extends Component {
                                 return <AddColumnForm key="addColumnForm" addColumn={that.props.addColumn}/>;
                             case 'admin':
                                 return <AdminMainForm key="adminMainForm"/>;
+                            case 'addtopic':
+                                return <AddTopicForm mediaid={that.props.mediaid} key="addTopicForm" toggle={that.props.toggle} callback={that.props.callback}/>;
                             default:
-                                // return null;
-                                return <AdminMainForm key="adminMainForm"/>;
+                                return null;
                         }
                     })(this)}
-
-
-
-                </div>
+                </div>}
             </div>)
     }
-
 }
 
 
@@ -47,6 +64,19 @@ const popupInner = {
     margin: "auto",
     background: "white",
     borderRadius: "5%",
+};
+
+
+const popupInnerBig = {
+    position: "absolute",
+    left: "10%",
+    top: "5%",
+    width: "80vw",
+    // height: "90vh",
+    paddingBottom:"2rem",
+    margin: "auto",
+    background: "white",
+    // borderRadius: "5%",
 };
 
 const closeButton = {

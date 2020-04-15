@@ -15,11 +15,13 @@ class TwitterColumnForm extends Component {
 
     handleSubmit(event){
         event.preventDefault();
+        console.log(this.state.query);
         this.props.addColumn(this.state.source, this.state.type, this.state.query);
+
 
         let that = this;
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
-        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/twitter/track/add/" + that.state.query)
+        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/twitter/track/add/" + that.state.query.replace("#","").replace(" ","").replace("?","").replace("=","").replace(".","").replace(":","").replace("/",""))
             .then((result) => {
                 console.log(result);
             });

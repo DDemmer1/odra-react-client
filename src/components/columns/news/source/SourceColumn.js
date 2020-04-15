@@ -36,7 +36,7 @@ class SourceColumn extends Component {
             <div style={columnStyle}>
                 <ColumnHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
                 <div onScroll={this.handleScroll} style={listStyle} className="columnScrollbar">
-                    <ArticleList articles={this.state.articles}/>
+                    <ArticleList articles={this.state.articles} toggle={this.props.toggle} user={this.props.user}/>
                     {this.state.loading ? <LoadingButton/> : null}
                 </div>
             </div>
@@ -46,7 +46,8 @@ class SourceColumn extends Component {
 
     handleScroll = e => {
         let element = e.target;
-        if (element.scrollHeight - element.scrollTop === element.clientHeight && this.state.loading === false && this.state.limit < this.state.articles.length +20) {
+        // console.log(Math.floor(element.scrollHeight- element.scrollTop) +" == " + element.clientHeight);
+        if (Math.floor(element.scrollHeight - element.scrollTop) <= element.clientHeight && this.state.loading === false && this.state.limit < this.state.articles.length +20) {
             this.setState({loading: true}, () => {
                 this.setState({limit: this.state.limit + 20}, () => {
                     axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)

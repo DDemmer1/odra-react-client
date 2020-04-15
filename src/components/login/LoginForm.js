@@ -32,6 +32,7 @@ class LoginForm extends Component {
             });
     };
 
+
     render() {
         return (
             <React.Fragment>
@@ -65,7 +66,7 @@ class LoginForm extends Component {
 const loginDiv = {
     marginTop: "10rem"
 
-}
+};
 
 
 export default LoginForm;

@@ -23,7 +23,7 @@ class TwitterColumn extends Component {
         window.setInterval(function () {
                 axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/twitter/tweet/get/list/" + that.props.column.query)
                     .then((result) => that.setState({tweets: result.data}));
-            }, 1000
+            }, 5000
         );
     }
 
@@ -33,7 +33,7 @@ class TwitterColumn extends Component {
                 <TwitterHeader source={this.props.column.source} column={this.props.column}
                                refreshColumns={this.props.refreshColumns}/>
                 <div style={listStyle} onScroll={this.handleScroll} className="columnScrollbar">
-                    <TweetList tweets={this.state.tweets}/>
+                    <TweetList toggle={this.props.toggle} tweets={this.state.tweets}/>
                     {this.state.loading ? <LoadingButton/> : null}
                 </div>
             </div>

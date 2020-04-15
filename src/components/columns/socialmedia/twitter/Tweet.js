@@ -6,6 +6,13 @@ import StarButton from "../../buttons/StarButton";
 import ThreeDotsButton from "../../buttons/ThreeDotsButton";
 
 class Tweet extends Component {
+
+    state = {
+        flags: 0,
+        stars: 0,
+        comments: 1
+    };
+
     render() {
         const {id, text,  tweet_url, created_at, user_name, user_profile_image_url, user_handle} = this.props.tweet;
 
@@ -22,7 +29,6 @@ class Tweet extends Component {
                             </a>
                         </div>
                     </div>
-
                     <div className="col-10">
                         <span><a href={"https://twitter.com/" + user_handle}><span style={nameStyle}>{user_name}</span> <span style={screenNameStyle}>@{user_handle}</span></a></span>
                         <p className="mb-1" style={{fontSize: "0.9rem"}}><a href={tweet_url}>{text}</a></p>
@@ -33,15 +39,20 @@ class Tweet extends Component {
                 </div>
 
                 <p className="mt-3" style={{color: "#b4b4b4"}}>
-                    <CommentButton comments={Math.round((Math.random() + 1) * 2)}/>
-                    <FlagButton flags={Math.round((Math.random() + 1) * 2)}/>
-                    <StarButton stars={Math.round((Math.random() + 1) * 2)}/>
+                    <CommentButton toggle={this.props.toggle} comments={1} text={this.props.tweet.text} header={"Tweet " + "<i class='fab fa-twitter'></i>"}/>
+                    <FlagButton flags={this.state.flags}/>
+                    <StarButton stars={this.state.stars}/>
                     <ThreeDotsButton/>
                 </p>
 
                 <hr/>
             </div>
         );
+    }
+
+    handleStarClick() {
+        this.setState({stars: this.state.stars+1});
+        console.log("test");
     }
 }
 

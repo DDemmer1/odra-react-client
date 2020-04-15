@@ -12,6 +12,8 @@ import Popup from "./components/popups/Popup";
 import LoginForm from "./components/login/LoginForm";
 import axios from "axios/index";
 import * as con from "./OdraLighthouseConstants.js";
+import StarColumn from "./components/columns/metadata/star/StarColumn";
+import TopicColumn from "./components/columns/metadata/topic/TopicColumn";
 
 
 //TODO finish QueryArticle
@@ -28,8 +30,11 @@ class App extends Component {
             token: localStorage.getItem("token"),
             showPopup: false,
             popUpType: "",
-            newsColumns: []
-        }
+            popUpSize: "",
+            newsColumns: [],
+            mediaid:"",
+            user: null
+        };
 
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
     }
@@ -49,6 +54,11 @@ class App extends Component {
                 }
             });
 
+        axios.get(con.API_BASE_URL + "/user/current").then((response)=> {
+            that.setState({user:response.data})
+        });
+
+
     }
 
     refreshColumns() {
@@ -61,10 +71,13 @@ class App extends Component {
     }
 
 
-    togglePopup = (popUpType) => {
+    togglePopup = (popUpType, popUpSize, mediaid, callback) => {
         this.setState({
             showPopup: !this.state.showPopup,
-            popUpType: popUpType
+            popUpType: popUpType,
+            popUpSize: popUpSize,
+            mediaid: mediaid,
+            callback: callback
         });
     };
 
@@ -72,9 +85,14 @@ class App extends Component {
         // console.log(source);
         // console.log(type);
         // console.log(query);
+        if(query !== null && query !== "" ){
+            query = query.replace("#","").replace(" ","").replace("?","").replace("=","").replace(".","").replace(":","").replace("/","");
+        }
         let that = this;
         axios.get(con.API_BASE_URL + "/user/add/column?source=" + source + "&type=" + type + "&query=" + query).then((result) => {
-            axios.get(con.API_BASE_URL + "/user/get/columns").then((result) => that.setState({newsColumns: result.data}))
+            axios.get(con.API_BASE_URL + "/user/get/columns").then((result) => {that.setState({newsColumns: result.data});
+                // console.log(result.data);
+            })
         }).catch(function (error) {
             that.onError();
         });
@@ -86,7 +104,7 @@ class App extends Component {
         this.setState({isAuthenticated: "false"});
         this.setState({newsColumns: []});
         window.location.reload();
-    }
+    };
 
     onLogin = (token) => {
         localStorage.setItem("isAuthenticated", "true");
@@ -106,6 +124,8 @@ class App extends Component {
         this.setState({token: ""});
     };
 
+
+
     render() {
         return (
             <div className="App">
@@ -117,18 +137,24 @@ class App extends Component {
                             {this.state.newsColumns.map((column) => {
                                 switch (column.type) {
                                     case "source":
-                                        return <ArticleColumn key={column.id} column={column}
-                                                              refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        return <ArticleColumn key={column.id} column={column} user={this.state.user}
+                                                              refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                     case "query":
-                                        return <QueryColumn key={column.id} column={column}
-                                                            refreshColumns={this.refreshColumns.bind(this)}/>;
+                                        return <QueryColumn key={column.id} column={column} user={this.state.user}
+                                                            refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
+                                    case "star":
+                                        return <StarColumn key={column.id} column={column} user={this.state.user}
+                                                            refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
+                                    case "topic":
+                                        return <TopicColumn key={column.id} column={column} user={this.state.user}
+                                                           refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                     case "socialmedia":
                                         if (column.source === "twitter") {
-                                            return <TwitterColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                            return <TwitterColumn key={column.id} column={column} user={this.state.user} refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                         } else if(column.source === "facebook"){
-                                            return <FacebookColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                            return <FacebookColumn key={column.id} column={column} user={this.state.user} refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                         } else if(column.source === "reddit"){
-                                            return <RedditColumn key={column.id} column={column} refreshColumns={this.refreshColumns.bind(this)}/>;
+                                            return <RedditColumn key={column.id} column={column} user={this.state.user} refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                         } else {
                                             return "";
                                         }
@@ -138,8 +164,8 @@ class App extends Component {
                             })}
                         </div>
                         {this.state.showPopup ?
-                            <Popup popUpType={this.state.popUpType} toggle={this.togglePopup.bind(this)}
-                                   addColumn={this.addColumn.bind(this)}/> : null}
+                            <Popup popUpType={this.state.popUpType} toggle={this.togglePopup.bind(this)} mediaid={this.state.mediaid} popUpSize={this.state.popUpSize}
+                                   addColumn={this.addColumn.bind(this)} callback={this.state.callback}/> : null}
                     </> : <LoginForm onLogin={this.onLogin.bind(this)}/>}
 
 
@@ -151,6 +177,6 @@ class App extends Component {
 const columnWrapper = {
     marginLeft: "12.5rem",
     whiteSpace: "nowrap"
-}
+};
 
 export default App;

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Radium from "radium";
+import axios from "axios/index";
+import * as con from "../../../../OdraLighthouseConstants";
 
 class ColumnOverviewButton extends Component {
 
@@ -12,18 +14,46 @@ class ColumnOverviewButton extends Component {
                 return "fas fa-search";
             case ("source"):
                 return "far fa-newspaper";
+            case ("star"):
+                return "far fa-star";
+            case ("flag"):
+                return "far fa-flag";
+            case ("topic"):
+                return "fas fa-thumbtack";
             default:
                 return "";
         }
     }
 
+    state = {
+        name:"All",
+    };
+
+    getUser(){
+        if(this.props.column.query != "all" && this.props.column.query != "null" && (this.props.column.type == "flag" || this.props.column.type == "star")){
+            axios.get(con.API_BASE_URL + "/user/" + this.props.column.query )
+                .then((result) => {
+                    this.setState({name: result.data.name})
+                });
+        }
+    }
+
+    componentDidMount(){
+        this.getUser();
+    }
+
     getHashTagListFromString(querys){
-        let out = "";
-        querys.split(",").forEach((hashtag) => {
-            out = out + " #"+hashtag;
-        });
-        out = out +" ";
-        return out;
+        switch (this.props.column.type) {
+            case ("star"):
+                return this.state.name + " ";
+            default:
+                let out = "";
+                querys.split(",").forEach((hashtag) => {
+                    out = out + " #" + hashtag;
+                });
+                out = out + " ";
+                return out;
+        }
     }
 
 
@@ -33,8 +63,6 @@ class ColumnOverviewButton extends Component {
         console.log(left);
         window.scrollTo({left:left+900,  behavior: "smooth",})
         // element.scrollIntoView({behavior: "smooth", block: "center"});
-
-
     }
 
 
@@ -59,11 +87,13 @@ class ColumnOverviewButton extends Component {
                                 display: "block",
                                 fontSize: "0.9rem"
                             }}>{this.props.column.type[0].toUpperCase() + this.props.column.type.slice(1)}</span>
-                        <span style={{
+
+                          <span style={{
                             display: "block",
                             fontSize: "0.7rem",
                             opacity: "0.6"
-                        }}>{query}@{this.props.column.source[0].toUpperCase() + this.props.column.source.slice(1)}</span>
+                        }}>{this.props.column.type == "star" ? <i className="far fa-user"></i> : null} {query}{this.props.column.type != "star" ? <>@{this.props.column.source[0].toUpperCase() + this.props.column.source.slice(1)}</> : null}
+                        </span>
                     </div>
                 </div>
             </React.Fragment>
