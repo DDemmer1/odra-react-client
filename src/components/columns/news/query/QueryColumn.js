@@ -16,13 +16,18 @@ class QueryColumn extends Component {
         maxLimit: 0
     };
 
+    componentWillUnmount(){
+        window.clearInterval(this.interval);
+    }
+
+    interval;
 
     componentDidMount() {
         axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit="+this.state.limit+"&query=" + this.props.column.query)
             .then((result) => that.setState({articles: result.data}));
         //start 5sec refresh
         var that = this;
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
                 axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit="+that.state.limit+"&query=" + that.props.column.query)
                     .then((result) => that.setState({articles: result.data}));
             }, 15000

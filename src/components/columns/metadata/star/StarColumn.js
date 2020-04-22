@@ -35,16 +35,16 @@ class StarColumn extends Component {
             });
     }
 
-    intervall;
+    interval;
     componentDidMount() {
        this.updateColumn();
         //start 5sec refresh
         var that = this;
-        this.intervall = window.setInterval(()=> this.updateColumn(), 2000);
+        this.interval = window.setInterval(()=> this.updateColumn(), 2000);
     }
 
     componentWillUnmount(){
-        window.clearInterval(this.intervall);
+        window.clearInterval(this.interval);
     }
 
     render() {

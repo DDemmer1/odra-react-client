@@ -3,10 +3,12 @@ import axios from "axios";
 import LoadingButton from "../../buttons/LoadingButton";
 import ArticleList from "../../news/source/ArticleList";
 import * as con from "../../../../OdraLighthouseConstants.js";
-import TopicHeader from "./TopicHeader";
+import FlagHeader from "./FlagHeader";
 
 
-class TopicColumn extends Component {
+
+
+class FlagColumn extends Component {
 
     state = {
         articles: [],
@@ -17,15 +19,15 @@ class TopicColumn extends Component {
 
 
     updateColumn(){
-        axios.get(con.API_BASE_URL + "/meta/topic/all/" + this.props.column.query )
+        axios.get(con.API_BASE_URL + "/meta/tag/flag/user/" + this.props.column.query )
             .then((result) => {
                 this.requestArticles(result.data)
             });
     }
 
-    requestArticles(topics){
+    requestArticles(stars){
         let articleIds = [];
-        topics.forEach((topic) => articleIds.push(topic.mediaId));
+        stars.forEach((star) => articleIds.push(star.mediaId));
         let that = this;
         axios.post(con.API_SCRAPER_CONTROLLER_URL + "/articles", {articleIds: articleIds})
             .then((result) => {
@@ -48,7 +50,7 @@ class TopicColumn extends Component {
     render() {
         return (
             <div style={columnStyle}>
-                <TopicHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
+                <FlagHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
                 <div style={listStyle} onScroll={this.handleScroll} className="columnScrollbar">
                     <ArticleList toggle={this.props.toggle} articles={this.state.articles} user={this.props.user}/>
                     {this.state.loading ? <LoadingButton/> : null}
@@ -89,4 +91,4 @@ const columnStyle = {
 
 };
 
-export default TopicColumn;
+export default FlagColumn;

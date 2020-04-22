@@ -50,20 +50,20 @@ class SocialMediaMainForm extends Component {
                                         that.handleClickAddTwitter();
                                     }} className="text-center col" key="sourceButtonWrapper" style={buttonWrapper}>
                                     <span><i style={iconStyle} className="fab fa-twitter"></i> <p
-                                        style={textStyle}>Twitter</p></span>
+                                        style={textStyle}>Twitter (Beta)</p></span>
                                     </div>
                                     {/*Facebook*/}
                                     <div onClick={() => {
-                                        that.handleClickAddFacebook();
-                                    }} className="text-center col" key="addTwitterButtonWrapper" style={buttonWrapper}>
-                                    <span><i style={iconStyle} className="fab fa-facebook-square"></i> <p
+                                        // that.handleClickAddFacebook();
+                                    }} className="text-center col" key="addTwitterButtonWrapper" style={inactive}>
+                                    <span><i style={inactiveIcon} className="fab fa-facebook-square"></i> <p
                                         style={textStyle}>Facebook</p></span>
                                     </div>
                                     {/*Reddit*/}
                                     <div onClick={() => {
-                                        that.handleClickAddReddit();
-                                    }} className="text-center col" key="addRedditButtonWrapper" style={buttonWrapper}>
-                                    <span><i style={iconStyle} className="fab fa-reddit"></i> <p
+                                        // that.handleClickAddReddit();
+                                    }} className="text-center col" key="addRedditButtonWrapper" style={inactive}>
+                                    <span><i style={inactiveIcon} className="fab fa-reddit"></i> <p
                                         style={textStyle}>Reddit</p></span>
                                     </div>
                                 </div>
@@ -128,6 +128,17 @@ const backButton = {
         color:"rgb(29, 161, 242)",
         backgroundColor:"rgba(29, 161, 242, 0.1)"
     }
+};
+
+
+const inactiveIcon = {
+    color: "grey",
+    fontSize: "2rem",
+
+};
+
+const inactive = {
+    width: "5rem",
 };
 
 

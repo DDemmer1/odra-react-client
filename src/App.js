@@ -14,6 +14,7 @@ import axios from "axios/index";
 import * as con from "./OdraLighthouseConstants.js";
 import StarColumn from "./components/columns/metadata/star/StarColumn";
 import TopicColumn from "./components/columns/metadata/topic/TopicColumn";
+import FlagColumn from "./components/columns/metadata/flag/FlagColumn";
 
 
 //TODO finish QueryArticle
@@ -145,6 +146,9 @@ class App extends Component {
                                     case "star":
                                         return <StarColumn key={column.id} column={column} user={this.state.user}
                                                             refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
+                                    case "flag":
+                                        return <FlagColumn key={column.id} column={column} user={this.state.user}
+                                                           refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
                                     case "topic":
                                         return <TopicColumn key={column.id} column={column} user={this.state.user}
                                                            refreshColumns={this.refreshColumns.bind(this)} toggle={this.togglePopup.bind(this)}/>;
@@ -164,7 +168,7 @@ class App extends Component {
                             })}
                         </div>
                         {this.state.showPopup ?
-                            <Popup popUpType={this.state.popUpType} toggle={this.togglePopup.bind(this)} mediaid={this.state.mediaid} popUpSize={this.state.popUpSize}
+                            <Popup popUpType={this.state.popUpType} toggle={this.togglePopup.bind(this)} user={this.state.user} mediaid={this.state.mediaid} popUpSize={this.state.popUpSize}
                                    addColumn={this.addColumn.bind(this)} callback={this.state.callback}/> : null}
                     </> : <LoginForm onLogin={this.onLogin.bind(this)}/>}
 

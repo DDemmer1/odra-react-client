@@ -25,10 +25,15 @@ class Article extends Component {
         this.getMetadata();
     }
 
+    componentWillUnmount(){
+        window.clearInterval(this.interval);
+    }
+
+    interval;
 
     componentDidMount(){
         let that = this;
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
                 that.getMetadata();
             },
             con.META_REFRESH_RATE
@@ -54,7 +59,7 @@ class Article extends Component {
                 <p style={{fontSize: "0.9rem", color: "#b4b4b4"}}><img alt="source favicon"
                                                                        src={"https://www.google.com/s2/favicons?domain=" + source}></img> @{sourceName}
                 </p>
-                <h4 style={{fontSize: "0.9rem"}}><a href={link}>{headline}</a></h4>
+                <h4 style={{fontSize: "0.9rem"}}><a href={link} target="_blank" >{headline}</a></h4>
 
                 <span style={{fontSize: "0.8rem"}}>{new Date(crawlDate).toLocaleDateString()}</span>
                 {this.state.metadata != null ?

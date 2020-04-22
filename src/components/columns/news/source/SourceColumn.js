@@ -15,6 +15,11 @@ class SourceColumn extends Component {
         loading: false
     }
 
+    componentWillUnmount(){
+        window.clearInterval(this.interval);
+    }
+
+    interval;
 
     componentDidMount() {
         axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + this.props.column.source + "?limit=" + this.state.limit)
@@ -22,7 +27,7 @@ class SourceColumn extends Component {
         //start 5sec refresh
         var that = this;
 
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
                 axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit=" + that.state.limit)
                     .then((result) => that.setState({articles: result.data}))
             },

@@ -17,20 +17,21 @@ class CollapseButton extends Component {
 CollapseButton = Radium(CollapseButton);
 
 const navbarItemBot = {
-    ':hover': {
-        filter: "brightness(3)"
-    },
+    // ':hover': {
+    //     filter: "brightness(3)"
+    // },
     paddingTop: "0.2rem",
-    cursor: "pointer",
-}
+    // cursor: "pointer",
+};
 
 const iconBot = {
     verticalAlign: "middle",
     fontSize: "1.4rem",
-    color: "#1da1f2",
+    color: "#8f8e90",
+    // color: "#1da1f2",
     display: "inline-block",
     paddingRight: "0.7rem",
-}
+};
 
 const iconTextBot = {
     verticalAlign: "middle",

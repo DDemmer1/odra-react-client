@@ -3,6 +3,7 @@ import AddColumnForm from "./forms/addColumns/AddColumnForm";
 import AdminMainForm from "./forms/admin/AdminMainForm";
 import CommentsForm from "./forms/comment/CommentsForm";
 import AddTopicForm from "./forms/addTopic/AddTopicForm";
+import ProfileInfoForm from "./forms/profile/ProfileInfoForm";
 
 
 class Popup extends Component {
@@ -40,6 +41,8 @@ class Popup extends Component {
                                 return <AddColumnForm key="addColumnForm" addColumn={that.props.addColumn}/>;
                             case 'admin':
                                 return <AdminMainForm key="adminMainForm"/>;
+                            case 'profile':
+                                return <ProfileInfoForm key="profileInfoForm" user={that.props.user}/>;
                             case 'addtopic':
                                 return <AddTopicForm mediaid={that.props.mediaid} key="addTopicForm" toggle={that.props.toggle} callback={that.props.callback}/>;
                             default:

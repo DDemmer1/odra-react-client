@@ -5,6 +5,7 @@ import Radium from "radium";
 import SocialMediaMainForm from "./socialmedia/SocialMediaMainForm";
 import StarColumnForm from "./metadata/StarColumnForm";
 import TopicColumnForm from "./metadata/TopicColumnForm";
+import FlagColumnForm from "./metadata/FlagColumnForm";
 
 const initialState = {
     query: false,
@@ -83,7 +84,10 @@ class AddColumnForm extends Component {
                                                  addColumn={that.props.addColumn}/>
                     } else if (that.state.stars) {
                         return <StarColumnForm key="starColumnForm" onBack={that.reset.bind(that)}
-                                                    addColumn={that.props.addColumn}/>
+                                               addColumn={that.props.addColumn}/>
+                    } else if (that.state.flags) {
+                        return <FlagColumnForm key="starColumnForm" onBack={that.reset.bind(that)}
+                                               addColumn={that.props.addColumn}/>
                     } else if (that.state.topics) {
                         return <TopicColumnForm key="starColumnForm" onBack={that.reset.bind(that)}
                                                addColumn={that.props.addColumn}/>
@@ -142,16 +146,16 @@ class AddColumnForm extends Component {
                                 {/*User Button*/}
                                 <div onClick={() => {
                                     that.handleClickUser();
-                                }} className="text-center col" style={buttonWrapper} key="user">
-                                    <span><i key="userIcon" style={iconStyle} className="far fa-user"></i> <p
+                                }} className="text-center col" style={inactive} key="user">
+                                    <span><i key="userIcon" style={inactiveIcon} className="far fa-user"></i> <p
                                         style={textStyle}>User</p></span>
                                 </div>
 
                                 {/*Comments Button*/}
                                 <div onClick={() => {
                                     that.handleClickComments();
-                                }} className="text-center col" style={buttonWrapper} key="comment">
-                                    <span><i key="commentIcon" style={iconStyle} className="far fa-comment"></i> <p
+                                }} className="text-center col" style={inactive} key="comment">
+                                    <span><i key="commentIcon" style={inactiveIcon} className="far fa-comment"></i> <p
                                         style={textStyle}>Comment</p></span>
                                 </div>
 
@@ -185,6 +189,16 @@ const buttonsDiv = {
     paddingTop: "2rem",
     paddingRight: "5rem",
     paddingBottom: "2rem"
+};
+
+const inactiveIcon = {
+    color: "grey",
+    fontSize: "2rem",
+
+};
+
+const inactive = {
+    width: "5rem",
 };
 
 const buttonWrapper = {

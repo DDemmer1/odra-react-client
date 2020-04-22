@@ -15,12 +15,18 @@ class TwitterColumn extends Component {
         maxLimit: 0
     };
 
+    componentWillUnmount(){
+        window.clearInterval(this.interval);
+    }
+
+    interval;
+
     componentDidMount() {
         axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/twitter/tweet/get/list/" + this.props.column.query)
             .then((result) => that.setState({tweets: result.data}));
         //start 5sec refresh
         var that = this;
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
                 axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/twitter/tweet/get/list/" + that.props.column.query)
                     .then((result) => that.setState({tweets: result.data}));
             }, 5000

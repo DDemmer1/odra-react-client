@@ -4,35 +4,35 @@ import * as con from "../../../../../OdraLighthouseConstants";
 import axios from "axios/index";
 
 
-class TopicColumnForm extends Component {
+class FlagColumnForm extends Component {
 
 
     state = {
-        query: "", //topic
+        query: "all", //user
         source: "all", //news
-        type: "topic",
-        topics: [],
+        type: "flag",
+        scrapers: [],
+        users: [],
     };
 
     componentDidMount() {
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
 
         let that = this;
-        axios.get(con.API_BASE_URL + "/meta/topic/all")
+        axios.get(con.API_SCRAPER_CONTROLLER_URL + "/scraper/get")
             .then((result) => {
-                that.setState({topics: result.data});
-            });
+                that.setState({scrapers: result.data});
+            }).then((result) => {
+            axios.get(con.API_BASE_URL + "/user/all").then((result => {
+                that.setState({users: result.data});
+            }));
+        });
 
     }
 
 
     handleSubmit = (event) => {
         event.preventDefault();
-        let topic = this.state.query;
-        if(topic== "" || topic == undefined || topic == "-" || topic == " " || topic == ""){
-            alert("Please choose a topic!");
-            return;
-        }
         this.props.addColumn(this.state.source, this.state.type, this.state.query)
 
     };
@@ -40,26 +40,41 @@ class TopicColumnForm extends Component {
     render() {
         return (
             <div>
-                <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Add a Topic column</h5>
+                <h5 className="text-center mt-3" style={{fontSize: "1rem"}}>Add a Flag column</h5>
                 <hr/>
                 <form onSubmit={(event) => {
                     this.handleSubmit(event)
                 }}>
                     <div className="form-group" style={form}>
-                        <label className="col-form-label" htmlFor="source">Topic: </label>
+                        <label className="col-form-label" htmlFor="source">User: </label>
                         <select style={{textTransform: "capitalize"}} className="custom-select" name="source" onChange={(event) => {
                             this.setState({query: event.target.value})
                         }}>
-                            <option style={{textTransform: "capitalize"}}>-</option>
+                            <option style={{textTransform: "capitalize"}}>all</option>
+
                             {
-                                this.state.topics.map((topic) => (
-                                    <option key={topic.id} >{topic.topicName}</option>
+                                this.state.users.map((user) => (
+                                    <option key={user.id} value={user.id}>{user.name}</option>
                                 ))
                             }
                         </select>
+
+                        {/*<label className="col-form-label" htmlFor="source">Source: </label>*/}
+                        {/*<select style={{textTransform: "capitalize"}} className="custom-select" name="source" onChange={(event) => {*/}
+                        {/*this.setState({source: event.target.value})*/}
+                        {/*}}>*/}
+                        {/*<option style={{textTransform: "capitalize"}}>all</option>*/}
+
+                        {/*{*/}
+                        {/*this.state.scrapers.map((scraper) => (*/}
+                        {/*<option key={scraper.id}>{scraper.name}</option>*/}
+                        {/*))*/}
+                        {/*}*/}
+                        {/*</select>*/}
                         <button className="btn odra-bg-color btn-primary mt-3" type="submit">Submit</button>
                     </div>
                 </form>
+
                 <button className="btn btn-primary btn-sm odra-color" style={backButton} onClick={() => {
                     this.props.onBack()
                 }}><i className="fas fa-long-arrow-alt-left"></i> Back
@@ -84,8 +99,8 @@ const backButton = {
 
 const form = {
     padding: "0.5rem 3.5rem "
-}
+};
 
-TopicColumnForm = Radium(TopicColumnForm);
+FlagColumnForm = Radium(FlagColumnForm);
 
-export default TopicColumnForm;
+export default FlagColumnForm;

@@ -18,7 +18,7 @@ class SidebarBottom extends Component {
                     <MessageButton/>
                     <SettingsButton onLogout={this.props.onLogout}/>
                     {localStorage.getItem("isAdmin","true") ? <AdminButton toggle={this.props.toggle} /> : null}
-                    <ProfileButton/>
+                    <ProfileButton toggle={this.props.toggle} user={this.props.user}/>
                 </ul>
                 <LogoBottom/>
             </React.Fragment>

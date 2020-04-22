@@ -11,9 +11,9 @@ class SettingsButton extends Component {
                         <div style={iconTextBot}> Settings</div>
                     </div>
                     <div className="dropdown-menu">
-                        <button className="dropdown-item" type="button" onClick={() => {this.props.onLogout()}}>Logout</button>
-                        <button className="dropdown-item" type="button">Another action</button>
-                        <button className="dropdown-item" type="button">Something else here</button>
+                        <button className="dropdown-item" type="button" onClick={() => {this.props.onLogout()}}><i className="fas fa-sign-out-alt"></i>Logout</button>
+                        {/*<button className="dropdown-item" type="button">Another action</button>*/}
+                        {/*<button className="dropdown-item" type="button">Something else here</button>*/}
                     </div>
                 </div>
             </React.Fragment>

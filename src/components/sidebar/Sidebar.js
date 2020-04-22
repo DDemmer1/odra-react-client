@@ -11,7 +11,7 @@ class Sidebar extends Component {
             <div style={navBarWrapper}>
                 <nav style={sidebar}>
                     <SidebarTop key="sidebarTop" newsColumns={this.props.newsColumns} toggle={this.props.toggle}/>
-                    <SidebarBottom key="sidebarBottom" onLogout={this.props.onLogout} toggle={this.props.toggle}/>
+                    <SidebarBottom key="sidebarBottom" onLogout={this.props.onLogout} toggle={this.props.toggle} user={this.props.user}/>
                 </nav>
             </div>
         );

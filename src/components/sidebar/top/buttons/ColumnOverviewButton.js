@@ -46,6 +46,8 @@ class ColumnOverviewButton extends Component {
         switch (this.props.column.type) {
             case ("star"):
                 return this.state.name + " ";
+            case ("flag"):
+                return this.state.name + " ";
             default:
                 let out = "";
                 querys.split(",").forEach((hashtag) => {
@@ -58,10 +60,10 @@ class ColumnOverviewButton extends Component {
 
 
     goToColumn(id){
-        let element = document.getElementById("header"+id);
-        let left = element.getBoundingClientRect().left;
-        console.log(left);
-        window.scrollTo({left:left+900,  behavior: "smooth",})
+        // let element = document.getElementById("header"+id);
+        // let left = element.getBoundingClientRect().left;
+        // console.log(left);
+        // window.scrollTo({left:left+900,  behavior: "smooth",})
         // element.scrollIntoView({behavior: "smooth", block: "center"});
     }
 
@@ -92,7 +94,8 @@ class ColumnOverviewButton extends Component {
                             display: "block",
                             fontSize: "0.7rem",
                             opacity: "0.6"
-                        }}>{this.props.column.type == "star" ? <i className="far fa-user"></i> : null} {query}{this.props.column.type != "star" ? <>@{this.props.column.source[0].toUpperCase() + this.props.column.source.slice(1)}</> : null}
+                        }}>
+                              {(this.props.column.type == "star" || this.props.column.type == "flag") ? <i className="far fa-user"></i> : null} {query}{(this.props.column.type != "star" && this.props.column.type != "flag" )? <>@{this.props.column.source[0].toUpperCase() + this.props.column.source.slice(1)}</> : null}
                         </span>
                     </div>
                 </div>

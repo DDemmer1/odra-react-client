@@ -5,7 +5,7 @@ class ProfileButton extends Component {
     render() {
         return (
             <React.Fragment>
-                <div style={navbarItemBot} key="profile">
+                <div style={navbarItemBot} key="profile" onClick={() => {this.props.toggle("profile")}}>
                     <div style={iconBot}><i className="far fa-user"></i></div>
                     <div style={iconTextBot}> Profile</div>
                 </div>
