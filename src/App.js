@@ -15,17 +15,18 @@ import * as con from "./OdraLighthouseConstants.js";
 import StarColumn from "./components/columns/metadata/star/StarColumn";
 import TopicColumn from "./components/columns/metadata/topic/TopicColumn";
 import FlagColumn from "./components/columns/metadata/flag/FlagColumn";
-
-
-//TODO finish QueryArticle
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+const EventSource = NativeEventSource || EventSourcePolyfill;
 
 
 class App extends Component {
 
 
+
+
     constructor() {
         super();
-
+        window.articles = [];
         this.state = {
             isAuthenticated: localStorage.getItem("isAuthenticated"),
             token: localStorage.getItem("token"),
@@ -36,12 +37,11 @@ class App extends Component {
             mediaid:"",
             user: null
         };
-
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+        this.subToMetadataStream();
     }
 
     componentDidMount() {
-
         let that = this;
         axios.get(con.API_BASE_URL + "/user/get/columns")
             .then((result) => that.setState({newsColumns: result.data}))
@@ -58,8 +58,28 @@ class App extends Component {
         axios.get(con.API_BASE_URL + "/user/current").then((response)=> {
             that.setState({user:response.data})
         });
+    }
 
+    updateArticleMetadata(data) {
+        let meta = JSON.parse(data);
+        window.articles.forEach((article,index)=>{
+            if(meta.mediaId == article.state.metadata.mediaId){
+                article.setMetadata(meta);
+            }
+        });
 
+    }
+
+    subToMetadataStream() {
+        let eventSource = new EventSourcePolyfill(con.API_BASE_URL +"/sse/subscribe/meta",{
+            headers: {
+                'Authorization': "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        eventSource.addEventListener("message", (event) => {this.updateArticleMetadata(event.data)});
+        eventSource.addEventListener("timeout", (event) => {console.log("timeout")});
+        eventSource.addEventListener("error", (event) => {console.log("error")});
     }
 
     refreshColumns() {

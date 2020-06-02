@@ -21,8 +21,7 @@ class Popup extends Component {
                         {(function(that) {
                             switch(that.props.popUpType) {
                                 case 'comments':
-                                    console.log(that.props.mediaid);
-                                    return <CommentsForm key="commentsForm" mediaid={that.props.mediaid}/>;
+                                    return <CommentsForm key="commentsForm" mediaid={that.props.mediaid} user={that.props.user}/>;
                                 default:
                                     return null;
                             }

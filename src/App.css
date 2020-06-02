@@ -93,6 +93,51 @@ a{
     color: rgb(29, 161, 242);
 }
 
+.odra-color:hover{
+    color: black;
+}
+
 .odra-bg-color{
     background-color: rgb(29, 161, 242);
 }
+
+
+/*Comment System*/
+
+.comment{
+    position: absolute;
+    padding: 1rem 1rem 1rem 1.35rem;
+    width: 90%;
+    background-color: white;
+    border: solid lightgrey thin;
+    border-radius: 8px;
+    transition:left 0.25s ease-in, height 0.25s ease-in;
+    cursor: pointer;
+    left: 1rem;
+    height: auto;
+}
+
+
+.comment:hover{
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    z-index: 10000;
+}
+
+.shadow{
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    z-index: 10000;
+}
+
+.comment.active{
+    left: -0.8rem;
+    box-shadow: rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    transition:left 0.25s ease-in, height 0.25s ease-in;
+    border-radius: 8px;
+    width: 92%;
+    z-index: 9999;
+    height: auto;
+
+}
+
+
+

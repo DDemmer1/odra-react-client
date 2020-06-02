@@ -22,15 +22,21 @@ class FlagButton extends Component {
         }
     };
 
+    interval;
+
     componentDidMount() {
         let that = this;
         that.checkIfUserFlagged(that.props.flags, that.props.user.id);
-        window.setInterval(function () {
+        this.interval = window.setInterval(function () {
                 that.checkIfUserFlagged(that.props.flags, that.props.user.id);
             },
             con.META_REFRESH_RATE
         );
     };
+
+    componentWillUnmount(){
+        window.clearInterval(this.interval);
+    }
 
     handleClick(event) {
         let that = this;

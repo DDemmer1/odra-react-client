@@ -7,37 +7,27 @@ import ThreeDotsButton from "../buttons/ThreeDotsButton";
 import axios from "axios/index";
 import * as con from "../../../OdraLighthouseConstants";
 
+
 class Article extends Component {
 
 
     getMetadata() {
         let that = this;
         axios.get(con.API_BASE_URL + "/meta/" + this.props.article.id).then((result) => {
-            that.setState({metadata: result.data})
+            that.setState({metadata: result.data});
         });
     }
 
     setMetadata(data) {
-        this.setState({metadata: data})
+        this.setState({metadata: data});
     }
 
     componentWillMount() {
         this.getMetadata();
     }
 
-    componentWillUnmount(){
-        window.clearInterval(this.interval);
-    }
-
-    interval;
-
     componentDidMount(){
-        let that = this;
-        this.interval = window.setInterval(function () {
-                that.getMetadata();
-            },
-            con.META_REFRESH_RATE
-        );
+        window.articles.push(this);
     }
 
     deleteTopic(id){
@@ -50,6 +40,9 @@ class Article extends Component {
             that.getMetadata();
         });
     }
+
+
+
 
     render() {
         const {headline, crawlDate, link, sourceName, source, id, textBody} = this.props.article;
@@ -77,8 +70,8 @@ class Article extends Component {
                                            header={headline}/>
                             <FlagButton mediaid={id} flags={this.state.metadata.flags}
                                         setMeta={this.setMetadata.bind(this)} user={this.props.user}/>
-                            <StarButton mediaid={id} stars={this.state.metadata.stars}
-                                        setMeta={this.setMetadata.bind(this)} user={this.props.user}/>
+                            <StarButton mediaid={this.props.article.id} stars={this.state.metadata.stars}
+                                    setMeta={this.setMetadata.bind(this)} user={this.props.user}/>
                             <ThreeDotsButton mediaid={id} toggle={this.props.toggle} user={this.props.user} callback={this.getMetadata.bind(this)}/>
                         </>
                         : null}

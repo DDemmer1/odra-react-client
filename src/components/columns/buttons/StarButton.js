@@ -4,6 +4,8 @@ import * as con from "../../../OdraLighthouseConstants";
 
 class StarButton extends Component {
 
+
+
     checkIfUserStared(stars, userid) {
         if (stars.length == 0) {
             this.setState({isStaredByUser: false});
@@ -22,17 +24,22 @@ class StarButton extends Component {
         this.setState({isStaredByUser: false})
     };
 
+    interval;
 
     componentDidMount() {
 
         let that = this;
-        that.checkIfUserStared(that.props.stars, that.props.user.id);
-        window.setInterval(function () {
+        this.checkIfUserStared(that.props.stars, that.props.user.id);
+        this.interval =window.setInterval(function () {
                 that.checkIfUserStared(that.props.stars, that.props.user.id);
             },
             con.META_REFRESH_RATE
         );
     };
+
+    componentWillUnmount() {
+        window.clearInterval(this.interval);
+    }
 
 
     handleClick(event) {
