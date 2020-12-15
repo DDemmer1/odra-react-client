@@ -11,7 +11,7 @@ class ColumnHeader extends Component {
                     <i style={{color: "gray", paddingRight: "0.3rem"}} className="far fa-newspaper"></i> Source
                     <span style={sourceStyle}> @{firstToUpperCase(this.props.source)}</span>
                 </h2>
-                <SliderButton source={this.props.source} column={this.props.column}
+                <SliderButton clearColumn={this.props.clearColumn} source={this.props.source} column={this.props.column}
                               refreshColumns={this.props.refreshColumns}/>
                 <p  style={{
                     paddingLeft: "1.4rem",

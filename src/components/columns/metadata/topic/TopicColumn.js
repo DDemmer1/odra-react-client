@@ -45,10 +45,14 @@ class TopicColumn extends Component {
         window.clearInterval(this.interval);
     }
 
+    clearColumn() {
+        this.setState({articles: []})
+    }
+
     render() {
         return (
             <div style={columnStyle}>
-                <TopicHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
+                <TopicHeader clearColumn={this.clearColumn.bind(this)} source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
                 <div style={listStyle} onScroll={this.handleScroll} className="columnScrollbar">
                     <ArticleList toggle={this.props.toggle} articles={this.state.articles} user={this.props.user}/>
                     {this.state.loading ? <LoadingButton/> : null}
@@ -76,7 +80,7 @@ const listStyle = {
     overflow: "scroll",
     height: "94.1vh",
     whiteSpace: "normal",
-    width: "20rem",
+    width: "30rem",
     padding: "1rem 1rem 1rem 1rem",
     borderRight: "solid lightgray thin",
     background: "white",

@@ -31,7 +31,7 @@ class StarHeader extends Component {
                     <i style={{color: "gray", paddingRight: "0.3rem"}} className="far fa-star"></i> Star
                     {/*<span style={sourceStyle}>{this.props.column.source == "all" ? <span> @All sources</span> : <span> @{this.props.column.source}</span>}</span>*/}
                 </h2>
-                <SliderButton source={this.props.source} column={this.props.column}
+                <SliderButton clearColumn={this.props.clearColumn} source={this.props.source} column={this.props.column}
                               refreshColumns={this.props.refreshColumns}/>
                 <p style={{
                     paddingLeft: "1.4rem",

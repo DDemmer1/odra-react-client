@@ -15,7 +15,7 @@ class TopicHeader extends Component {
                 <h2 style={headlineStyle}>
                     <i style={{color: "gray", paddingRight: "0.3rem"}} className="fas fa-thumbtack"></i> Topic
                 </h2>
-                <SliderButton source={this.props.source} column={this.props.column}
+                <SliderButton clearColumn={this.props.clearColumn} source={this.props.source} column={this.props.column}
                               refreshColumns={this.props.refreshColumns}/>
                 <p style={{
                     paddingLeft: "1.4rem",

@@ -67,7 +67,7 @@ const listStyle = {
     overflow: "scroll",
     height: "94.1vh",
     whiteSpace: "normal",
-    width: "20rem",
+    width: "30rem",
     padding: "1rem 1rem 1rem 1rem",
     borderRight: "solid lightgray thin",
     background: "white"

@@ -14,7 +14,7 @@ class QueryHeader extends Component {
                         fontFamily: "Helvetica"
                     }}> @{firstToUpperCase(this.props.column.source)}</span>
                 </h2>
-                <SliderButton refreshColumns={this.props.refreshColumns} column={this.props.column}/>
+                <SliderButton clearColumn={this.props.clearColumn} refreshColumns={this.props.refreshColumns} column={this.props.column}/>
                 <p style={{
                     paddingLeft: "1.4rem",
                     color: "gray", fontSize: "0.75rem", fontFamily: "Helvetica"

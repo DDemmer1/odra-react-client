@@ -17,16 +17,25 @@ class CommentsForm extends Component {
         showCommentButton: false
     };
 
+
+    getMetadata() {
+        let that = this;
+        axios.get(con.API_BASE_URL + "/meta/" + this.props.mediaid).then((result) => {
+            that.setState({comments: result.data.comments});
+            that.setState({metadata: result.data});
+        });
+    }
+
     reset() {
         this.setState(initialState);
     }
 
     updateAllCommentBoxes() {
-
+        console.log("update");
         for (var i = 0; i < this.state.comments.length; i++) {
             let comment = this.state.comments[i];
             if (comment.preview) continue;
-            let commentId = comment.commentId;
+            let commentId = comment.commentId == undefined ? comment.id : comment.commentId;
             if (document.getElementById("mark-" + commentId) != null && document.getElementById(commentId) != null) {
                 document.getElementById(commentId).style.top = document.getElementById("mark-" + commentId).getClientRects()[0].y - 170 + "px";
             }
@@ -36,16 +45,17 @@ class CommentsForm extends Component {
     setOnClickForMarks() {
         for (var i = 0; i < this.state.comments.length; i++) {
             let comment = this.state.comments[i];
-            if (document.getElementById("mark-" + comment.commentId) != undefined && document.getElementById(comment.commentId) != null) {
-                let mark = document.getElementById("mark-" + comment.commentId);
+            let commentId = comment.commentId == undefined ? comment.id : comment.commentId;
+            if (document.getElementById("mark-" + commentId) != undefined && document.getElementById(commentId) != null) {
+                let mark = document.getElementById("mark-" + commentId);
                 mark.addEventListener("click", () => {
-                    this.focusBox(comment.commentId)
+                    this.focusBox(commentId)
                 })
                 mark.addEventListener("mouseover", () => {
-                    this.toggleCommentBoxHover("in", comment.commentId)
+                    this.toggleCommentBoxHover("in", commentId)
                 });
                 mark.addEventListener("mouseout", () => {
-                    this.toggleCommentBoxHover("out", comment.commentId)
+                    this.toggleCommentBoxHover("out", commentId)
                 });
             }
         }
@@ -108,13 +118,14 @@ class CommentsForm extends Component {
                     selectedText: selectedText,
                     mediaId: this.state.article.id,
                     user: this.props.user,
-                    time: new Date(),
+                    userId: this.props.user.id,
+                    timestamp: new Date(),
                     preview: true,
                     color: "#F08080",
-                    //TODELETE:
-                    commentId: Math.floor(Math.random() * 99999),
-                    commentText: "This is a test",
-                    answers:[]
+                    // commentId: Math.floor(Math.random() * 99999),
+                    id: Math.floor(Math.random() * 99999),
+                    commentText:"",
+                    answers: []
 
                 };
                 //save request and show "Add comment" button
@@ -166,13 +177,27 @@ class CommentsForm extends Component {
     sendComment(comment) {
         comment.commentText = this.state.commentInput;
 
+
         // Mockup send/recieve
         let addComments = this.state.comments;
         addComments.push(comment);
         this.setState({comments: addComments});
         //
 
-        this.focusBox(comment.commentId);
+        let id;
+        if (comment.preview != true) {
+            console.log(comment);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+            axios.post(con.API_BASE_URL + "/meta/comment/add", comment)
+                .then((result) => {
+                    console.log(result.data);
+                    this.getMetadata();
+                });
+
+        }
+
+        //TODO Refocus not possible, need to fetch new id from backend for this
+        // this.focusBox(comment.id);
         this.setState({commentInput: ""});
     }
 
@@ -213,7 +238,8 @@ class CommentsForm extends Component {
         for (var i = 0; i < comments.length; i++) {
             let text = document.getElementById("detail-text").innerHTML;
             let comment = comments[i];
-            let replacement = "<span preview='" + comment.preview + "' id='mark-" + comment.commentId + "' style='cursor: pointer; background-color:" + comment.color + "'>" + comment.selectedText + "</span>"
+            let commentId = comment.id != undefined ? comment.id : comment.commentId
+            let replacement = "<span preview='" + comment.preview + "' id='mark-" + commentId + "' style='cursor: pointer; background-color:" + comment.color + "'>" + comment.selectedText + "</span>"
 
             document.getElementById("detail-text").innerHTML = text.splice(comment.start, comment.end - comment.start, replacement);
         }
@@ -233,39 +259,7 @@ class CommentsForm extends Component {
         axios.get(con.API_SCRAPER_CONTROLLER_URL + "/articles/" + this.props.mediaid)
             .then((result) => {
                 that.setState({article: result.data});
-
-                //toDelete
-                this.setState({commentInput: "ODRAlighthouse test comment"});
-                let testComment = {
-                    start: 700,
-                    end: 900,
-                    selectedText: this.state.article.textBody.substring(700, 900),
-                    mediaId: this.state.article.id,
-                    //TODELETE
-                    active: false,
-                    commentId: 1337,
-                    time: new Date(),
-                    color: "#F08080",
-                    user: this.props.user,
-                    preview: false,
-                    answers:[
-                        {   text:"Das ist eine Test-Antwort",
-                            user: this.props.user,
-                            time: new Date(),
-                            commentId: 1337,
-                            answerId: 42
-                        },
-                        {   text:"Und hier nochmal eine Antwort!",
-                            user: this.props.user,
-                            time: new Date(),
-                            commentId: 1337,
-                            answerId: 43
-                        }
-                    ]
-                };
-                this.addComment(testComment);
-                //
-
+                that.getMetadata();
             });
 
         window.addEventListener("resize", this.updateAllCommentBoxes.bind(this));
@@ -274,7 +268,7 @@ class CommentsForm extends Component {
 
 
     handleAddCommentClick() {
-        if(this.state.commentInput == ""){
+        if (this.state.commentInput == "") {
             alert("Please enter a comment!");
             return;
         }
@@ -283,7 +277,6 @@ class CommentsForm extends Component {
         //TODO send request to server
         request.preview = false;
         this.sendComment(request);
-        console.log(request);
     }
 
     handleCommentCancel() {
@@ -345,7 +338,7 @@ class CommentsForm extends Component {
 
         //set box with id active
         for (let i = 0; i < this.state.comments.length; i++) {
-            if (this.state.comments[i].commentId == boxId) {
+            if (this.state.comments[i].id == boxId) {
                 let comments = this.state.comments;
                 let comment = comments[i];
                 comment.active = true;
@@ -434,8 +427,8 @@ class CommentsForm extends Component {
 
                             {/*CommentText fields*/}
                             {this.state.comments.map((comment) => (
-                                <React.Fragment key={comment.commentId + "-fragment"}> {comment.preview ? null :
-                                    <CommentText key={comment.commentId + "-text"} comment={comment}
+                                <React.Fragment key={comment.id + "-fragment"}> {comment.preview ? null :
+                                    <CommentText metadata={this.state.metadata} getMetadata={this.getMetadata.bind(this)} user={this.props.user} key={comment.id + "-text"} comment={comment}
                                                  focus={this.focusBox.bind(this)}/>}
                                 </React.Fragment>
                             ))}

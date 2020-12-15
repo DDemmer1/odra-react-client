@@ -35,7 +35,8 @@ class App extends Component {
             popUpSize: "",
             newsColumns: [],
             mediaid:"",
-            user: null
+            user: null,
+            navCollapsed: false
         };
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
         this.subToMetadataStream();
@@ -145,6 +146,10 @@ class App extends Component {
         this.setState({token: ""});
     };
 
+    collapseSidebar = () =>{
+       this.setState({navCollapsed:!this.state.navCollapsed});
+    };
+
 
 
     render() {
@@ -152,9 +157,9 @@ class App extends Component {
             <div className="App">
                 {this.state.isAuthenticated === "true"
                     ? <>
-                        <Sidebar key="sidebar" newsColumns={this.state.newsColumns} toggle={this.togglePopup.bind(this)}
+                        <Sidebar collapseSidebar={this.collapseSidebar.bind(this)} key="sidebar" newsColumns={this.state.newsColumns} toggle={this.togglePopup.bind(this)}
                                  onLogout={this.onLogout.bind(this)}/>
-                        <div style={columnWrapper}>
+                        <div style={{marginLeft: this.state.navCollapsed == true ? "3rem" :"12.5rem", whiteSpace: "nowrap"}}>
                             {this.state.newsColumns.map((column) => {
                                 switch (column.type) {
                                     case "source":
@@ -198,9 +203,5 @@ class App extends Component {
     }
 }
 
-const columnWrapper = {
-    marginLeft: "12.5rem",
-    whiteSpace: "nowrap"
-};
 
 export default App;

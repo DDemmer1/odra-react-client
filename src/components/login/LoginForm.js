@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import * as axios from "axios";
 import LoginError from "./LoginError";
 import * as con from "../../OdraLighthouseConstants";
+import logo from '../../resources/lighthouse.svg';
+
 
 
 
@@ -56,16 +58,43 @@ class LoginForm extends Component {
                         </button>
                         {this.state.error ? <LoginError/> : null}
                     </div>
+                    <div style={logoDiv} className="rounded">
+                        <h3 style={headlineStyle}><img style={logoStyle} src={logo} alt="odra-logo"/> ODRA<i
+                            style={lighthouse}>lighthouse</i>
+                        </h3>
+                    </div>
                 </form>
             </React.Fragment>
         );
     }
 }
 
+const logoStyle = {
+    height: "2rem"
+};
+
+const lighthouse = {
+    fontSize: "1.2rem"
+};
+
+const logoDiv = {
+    backgroundColor: "#123b53",
+    color: "white",
+    width: "200px",
+    margin: "auto",
+    padding: "0.01rem 0.01rem 0.2rem 0.01rem",
+    textAlign: "center"
+
+};
+
+const headlineStyle = {
+    marginTop: "1rem",
+    marginLeft: "0.2rem",
+    fontSize: "1.5rem",
+};
 
 const loginDiv = {
     marginTop: "10rem"
-
 };
 
 

@@ -10,6 +10,10 @@ class SliderButton extends Component {
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
     };
 
+    clear = () => {
+        this.props.clearColumn();
+    };
+
     handleSubmit = () => {
         let that = this;
 
@@ -44,6 +48,10 @@ class SliderButton extends Component {
                         <button onClick={() => {
                             this.handleSubmit()
                         }} className="dropdown-item" type="button"><i className="fas fa-trash"></i> Remove
+                        </button>
+                        <button onClick={() => {
+                            this.clear()
+                        }} className="dropdown-item" type="button"><i className="fas fa-brush"></i> Clear
                         </button>
                     </div>
                 </div>

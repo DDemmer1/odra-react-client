@@ -13,7 +13,7 @@ class SidebarBottom extends Component {
         return (
             <React.Fragment>
                 <ul style={{bottom: "4rem", position: "absolute"}} className="list-unstyled">
-                    <CollapseButton/>
+                    <CollapseButton collapseSidebar={this.props.collapseSidebar} collapseSecondaryNavbar={this.props.collapseSecondaryNavbar}/>
                     <NotificationButton/>
                     <MessageButton/>
                     <SettingsButton onLogout={this.props.onLogout}/>

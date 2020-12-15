@@ -8,6 +8,7 @@ class CommentButton extends Component {
         return (
             <React.Fragment>
                 <i style={articleItem} className="far fa-comment" onClick={() => {this.props.toggle("comments","big",this.props.mediaid)}}></i> {this.props.comments.length}
+                {/*<i style={articleItem} className="far fa-comment" onClick={() => {alert("In development")}}></i> {this.props.comments.length}*/}
             </React.Fragment>
         );
     }

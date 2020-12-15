@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
 import ColumnOverviewButton from "./buttons/ColumnOverviewButton";
 import AddColumnButton from "./buttons/AddColumnButton";
+import 'react-base-table/styles.css'
 
 class SidebarTop extends Component {
+
+    handleDragStart(e) {
+        console.log("test");
+    }
+
+    handleDragEnd(e) {
+        console.log("test");
+
+    }
+
     render() {
         return (
             <React.Fragment>

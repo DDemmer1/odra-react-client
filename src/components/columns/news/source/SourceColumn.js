@@ -13,7 +13,7 @@ class SourceColumn extends Component {
         articles: [],
         limit: 20,
         loading: false
-    }
+    };
 
     componentWillUnmount(){
         window.clearInterval(this.interval);
@@ -31,15 +31,18 @@ class SourceColumn extends Component {
                 axios.get(con.API_SCRAPER_CONTROLLER_URL+ "/articles/source/" + that.props.column.source + "?limit=" + that.state.limit)
                     .then((result) => that.setState({articles: result.data}))
             },
-            15000
+            1500000000
         );
     }
 
+    clearColumn() {
+        this.setState({articles: []})
+    }
 
     render() {
         return (
             <div style={columnStyle}>
-                <ColumnHeader source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
+                <ColumnHeader clearColumn={this.clearColumn.bind(this)} source={this.props.column.source} column={this.props.column} refreshColumns={this.props.refreshColumns}/>
                 <div onScroll={this.handleScroll} style={listStyle} className="columnScrollbar">
                     <ArticleList articles={this.state.articles} toggle={this.props.toggle} user={this.props.user}/>
                     {this.state.loading ? <LoadingButton/> : null}
@@ -72,7 +75,7 @@ const listStyle = {
     overflow: "scroll",
     height: "94.1vh",
     whiteSpace: "normal",
-    width: "20rem",
+    width: "30rem",
     padding: "1rem 1rem 1rem 1rem",
     borderRight: "solid lightgray thin",
     background: "white"

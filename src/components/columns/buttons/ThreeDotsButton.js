@@ -21,7 +21,7 @@ class ThreeDotsButton extends Component {
                         <button className="dropdown-item" type="button" onClick={()=> {
                             this.props.toggle("addtopic", "small", this.props.mediaid, this.props.callback)}}>Add topic</button>
                         <button className="dropdown-item" type="button" onClick={()=> {alert("Your reported media with id: " + this.props.mediaid + " as faulty. Admin has been noticed.")}}>Report faulty media</button>
-                        {/*<button className="dropdown-item" type="button" onClick={() => this.getMetadata()}>Debug Metadata</button>*/}
+                        <button className="dropdown-item" type="button" onClick={() => this.getMetadata()}>Debug Metadata</button>
                     </div>
                 </div>
             </React.Fragment>

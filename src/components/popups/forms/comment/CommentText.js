@@ -1,38 +1,118 @@
 import React, {Component} from 'react';
 import Radium from "radium";
 import Answer from "./Answer";
+import * as con from "../../../../OdraLighthouseConstants.js";
+import axios from "axios/index";
+import OptionsButton from "./buttons/OptionsButton";
 
 
 class CommentText extends Component {
 
-    toDateWithoutSeconds(date) {
-        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    timestampToDate(timestamp) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+        let date = Date.parse(timestamp);
+        return new Date(date).toLocaleTimeString('de-DE', options);
     }
 
+
     state = {
-        inputFocus: false
+        inputFocus: false,
+        user: {
+            name:"",
+            username:""
+        }
     };
+
+    getUserByID(){
+        axios.get(con.API_BASE_URL + "/user/" + this.props.comment.userId).then((result) =>{
+            console.log(result.data);
+            this.setState({user: result.data})
+        });
+    }
+
+    componentWillMount(){
+        this.setState({answers: this.props.comment.answers});
+
+    }
+
+    componentDidMount(){
+        this.getUserByID();
+    }
+
+    handleAnswerSubmit(){
+
+        // Set state to directly render answer after submit
+        let answerForState = {
+            mediaId: this.props.comment.mediaId,
+            text: this.state.text,
+            timestamp: new Date(),
+            userId:this.props.user.id
+        };
+
+        this.setState(state => {
+            const answers = state.answers.concat(answerForState);
+            return {
+                answers
+            };
+        });
+
+
+        //send answer request to server
+        let answer = {
+            mediaId: this.props.comment.mediaId,
+            commentId: this.props.comment.id,
+            text: this.state.text
+        };
+
+        console.log(answer);
+        let that = this;
+        axios.post(con.API_BASE_URL + "/meta/answer/add", answer)
+            .then((result) => {
+                console.log(result.data);
+            });
+
+        document.getElementById("answer-input").value = "";
+    }
+
+
+
+
+    handleAnswerInput(e){
+        let text = e.target.value;
+        this.setState({text: text});
+    }
+
+    delete(){
+        console.log(this.props.comment.id);
+        let that = this;
+        axios.get(con.API_BASE_URL + "/meta/comment/delete?id=" + this.props.comment.id + "&metaId=" + this.props.metadata.id)
+            .then((result) => {
+                console.log(result.data);
+                this.props.getMetadata();
+            });
+    }
 
 
     render() {
         return (
             <div className={'rounded-lg comment' + (this.props.comment.active ? ' active' : '')}
-                 id={this.props.comment.commentId}
+                 id={this.props.comment.id != undefined ? this.props.comment.id : this.props.comment.id}
                  onClick={() => {
-                     this.props.focus(this.props.comment.commentId);
+                     this.props.focus(this.props.comment.id);
                  }}>
                 <div>
                     {/*Username*/}
                     <span style={username}>
-                        <i class="fas fa-user"></i> {this.props.comment.user.name} <span
-                        style={{color: "grey"}}>@{this.props.comment.user.username}</span>
+                        <i class="fas fa-user"></i> {this.state.user.name} <span
+                        style={{color: "grey"}}>@{this.state.user.username}</span>
                     </span>
                     {/*Settings*/}
-                    <span><i style={settings} key={this.props.comment.commentId + "-setting"} className="fas fa-ellipsis-h"></i></span>
+                    <OptionsButton delete={this.delete.bind(this)}/>
                 </div>
                 {/*Time*/}
-                <div
-                    style={time}>{this.props.comment.time.toLocaleDateString() + " " + this.toDateWithoutSeconds(this.props.comment.time)}</div>
+                <div style={time}>
+                    {this.timestampToDate(this.props.comment.timestamp)}
+                </div>
                 {/*Comment*/}
                 <div>
                     <span style={{color: this.props.comment.color}}>&#11044;  </span>
@@ -40,18 +120,17 @@ class CommentText extends Component {
                 </div>
 
                 {/*Answers*/}
-                <div>
-
+                <div style={answerList}>
                     { this.props.comment.active ?
-                        this.props.comment.answers.map((answer) => (
+                        this.state.answers.map((answer) => (
                             <div>
                                 <hr/>
-                                <Answer key={answer.answerId + "-answer"} answer={answer}/>
+                                <Answer getMetadata={this.props.getMetadata} metadata={this.props.metadata} key={answer.answerId + "-answer"} answer={answer}/>
                             </div>))
                         :
-                            this.props.comment.answers.length == 0 ? null
-                                :
-                            <div><hr/><i class="fas fa-comments"></i> {this.props.comment.answers.length} Answers. Read more...</div>
+                        this.state.answers.length == 0 ? null
+                            :
+                            <div><hr/><i class="fas fa-comments"></i> {this.state.answers.length} Answers. Read more...</div>
                     }
 
                 </div>
@@ -59,9 +138,12 @@ class CommentText extends Component {
                 {this.props.comment.active ?
                     <div>
                         <hr/>
-                        <input onFocus={() => {
+                        <input id="answer-input" onChange={(event) => {
+                            this.handleAnswerInput(event);
+                            }}
+                               onFocus={() => {
                             this.setState({inputFocus: true})
-                        }}
+                            }}
                                placeholder="Answer..."
                                className="form-control"
                                onBlur={() => {
@@ -72,12 +154,16 @@ class CommentText extends Component {
                                 <div key="commentButton"
                                      className="btn btn-primary btn-sm text-center mr-2 "
                                      onMouseDown={(event) => {
-                                         alert("Sending answer")
+                                         this.handleAnswerSubmit();
                                      }}
                                 >Answer
                                 </div>
                                 <div key="cancelButton"
-                                     className="btn btn-light btn-sm text-center">
+                                     className="btn btn-light btn-sm text-center"
+                                     onMouseDown={()=>{
+                                         document.getElementById("answer-input").value = "";
+                                     }}
+                                >
                                     Cancel
                                 </div>
                             </div>
@@ -88,9 +174,14 @@ class CommentText extends Component {
             </div>
         );
     }
+
+
 }
 
-
+const answerList = {
+    maxHeight:"24rem",
+    overflowY:"auto"
+};
 
 const username = {fontWeight: 600, display:"inline-block"};
 

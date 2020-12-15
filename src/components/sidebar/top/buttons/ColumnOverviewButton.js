@@ -68,13 +68,15 @@ class ColumnOverviewButton extends Component {
     }
 
 
+
+
     render() {
         let query = (this.props.column.query == "" || this.props.column.query == "null") ? "" : this.getHashTagListFromString(this.props.column.query);
 
         let icon = this.getIcon();
         return (
             <React.Fragment>
-                <div onClick={() => this.goToColumn(this.props.column.id)} className="row" style={[{paddingTop: "1rem", cursor: "pointer"}, hoverStyle]}
+                <div  draggable="true" onClick={() => this.goToColumn(this.props.column.id)} className="row" style={[{paddingTop: "1rem", cursor: "move"}, hoverStyle]}
                      key={this.props.column.id}>
                     <div className="col-2" href={"#header"+this.props.column.id}>
                         <i style={{
@@ -108,11 +110,11 @@ ColumnOverviewButton = Radium(ColumnOverviewButton);
 
 
 
-
+var dragSrcEl = this;
 const hoverStyle = {
     ':hover': {
         filter: "brightness(3)"
     }
-}
+};
 
 export default ColumnOverviewButton;
